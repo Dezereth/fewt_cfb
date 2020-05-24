@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDX CS410-FEWT CFB Data</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+      href="main.css"
+    />
+    <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+    <nav class="navbar nav-fill fixed-top justify-content-center bg-dark">
+        <div class="nav-item">
+            <a class="nav-link" href="#!" id="home">CFB Stats</a>
+        </div>
+    </nav> 
+    <div class="container" id="conferences-container" >
+        <div class="row justify-content-center m-2" id="conferences-row1">
+            <div class="card-deck" id="conferences-deck1">
+                <div class="card" id="pac-card">
+                    <a href="#" class="btn btn-fix text-center">
+                        <img class=card-img-top" id="pac-img" src="" alt="PAC-12">
+                        <div class="card-block">
+                            <h4 class=card-title">PAC-12</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" id="sec-card">
+                    <a href="#" class="btn btn-fix text-center">
+                        <img class=card-img-top" id="sec-img" src="" alt="SEC">
+                        <div class="card-block">
+                            <h4 class=card-title">SEC</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" id="b10-card">
+                    <a href="#" class="btn btn-fix text-center">
+                        <img class=card-img-top" id="b10-img" src="" alt="Big-10">
+                        <div class="card-block">
+                            <h4 class=card-title">Big-10</h4>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center m-2" id="conferences-row2">
+            <div class="card-deck" id="conferences-deck2">
+                <div class="card" id="acc-card">
+                    <a href="#" class="btn btn-fix text-center">
+                        <img class=card-img-top" id="acc-img" src="" alt="acc">
+                        <div class="card-block">
+                            <h4 class=card-title">acc</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" id="b12-card">
+                    <a href="#" class="btn btn-fix text-center">
+                        <img class=card-img-top" id="b12-img" src="" alt="Big-12">
+                        <div class="card-block">
+                            <h4 class=card-title">Big-12</h4>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mx-auto" id="teams-container" >
+    </div>
+    <div class="container mx-auto" id="single-team-container" >
+    </div>
+    <div class="container mx-auto" id="game-container" >
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="app.js"></script>
+</body>
+</html>

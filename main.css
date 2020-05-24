@@ -1,0 +1,19 @@
+body {
+    padding-top: 70px;
+}
+
+#conferences-container {
+    display: none;
+}
+
+#teams-container {
+    display: none;
+}
+
+#single-team-container {
+    display: none;
+}
+
+#game-container {
+    display: none;
+}
