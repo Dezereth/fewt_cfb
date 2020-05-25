@@ -3,7 +3,7 @@ body {
 }
 
 #conferences-container {
-    //display: none;
+    display: none;
 }
 
 #teams-container {
@@ -11,7 +11,7 @@ body {
 }
 
 #single-team-container {
-    display: none;
+    //display: none;
 }
 
 #game-container {

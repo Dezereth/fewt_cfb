@@ -10,7 +10,9 @@ let conferenceStrings = {
     pac: "pac"
 }
 
-let teams = [];
+let teams = []; //For tracking data of teams to display
+let teamNameLookup = {}; //For a reverse id to teams index lookup
+let teamStats = []; //For populating with objects
 
 async function getData(localurl) {
     return response = await axios.get(localurl)
@@ -18,6 +20,7 @@ async function getData(localurl) {
 
 async function populateTeams(conferenceToDisplay){
     teams = [];
+    teamNameLookup = {};
     //This function will hide (none) the conferences page and display the teams in a conference
     var URL = baseURL + "teams?conference=" + conferenceToDisplay;
     //Making the API call
@@ -25,6 +28,7 @@ async function populateTeams(conferenceToDisplay){
         .then(response => {
         for (let i = 0; i < response.data.length; i++) {
             teams.push(response.data[i]);
+            teamNameLookup[response.data[i].alt_name2] = i;
         }
     });
     confPage = document.getElementById("conferences-container")
@@ -35,7 +39,7 @@ async function populateTeams(conferenceToDisplay){
     for (let i = 0, j = 1; i < teams.length; i++) {
         //Iterating through the fetched teams to display their logos as buttons
         //Creating card elements just like the fixed elements of conferences
-        console.log(teams[i].school);
+        //console.log(teams[i].school);
         if(i % 3 == 0) {
             //Putting out 3 per row
             row = document.createElement("div");
@@ -64,4 +68,30 @@ async function populateTeams(conferenceToDisplay){
     console.log(teams.length);
 }
 
-//populateTeams("sec");
+//populateTeams("b1g");
+
+async function showTeamData(teamToShow) {
+    //Takes a team object from the teams[] array
+    let games = [];
+    let year = "2019";
+    //let teamURLname = teamToShow.school.replace(/ /g, "%20"); //convert spaces to URL spaces
+    let teamURLname = "oregon";
+    let oregonID = 2483; //TODO Remove placeholder once an actual team is passed.
+    let statsURL = baseURL + "stats/season?year=" + year + "&team=" + teamURLname;
+    //let gamesURL = baseURL + "games?year=" + year + "&team=" + teamURLname;
+    let gamesURL = baseURL + "games/teams?year=" + year + "&team=" + teamURLname + "&week=";
+    for (let i = 0; i < 16; i++){
+        //Getting data for all 16 weeks of games, including week 0
+        await getData(gamesURL + i)
+            .then(response => {
+                if(typeof response.data[0] !== "undefined"){
+                    //Filtering BYE weeks
+                    games.push(response.data[0]);
+                }
+        });
+    }
+    console.log(games);
+
+}
+
+showTeamData("string");
