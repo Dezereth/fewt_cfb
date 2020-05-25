@@ -9,10 +9,110 @@ let conferenceStrings = {
     sec: "sec",
     pac: "pac"
 }
+let games = [];
+let ts;
+
+class teamStats {
+    constructor(school) {
+        this.numGames = 0;
+        this.school = school;
+        this.gameID = [];
+        this.pointsScored = [];     //Off
+        this.pointsAllowed = [];    //Def
+        this.yards = [];            //Off
+        this.rushYards = [];        //Off
+        this.passYards = [];        //Off
+        this.rushTD = [];           //Off
+        this.passTD = [];           //Off
+        this.compAtt = [];          //Off
+        this.sacks = [];            //Off
+        this.turnoversLost = [];    //Off
+        this.yardsDef = [];         //Def
+        this.rushYardsDef = [];     //Def
+        this.passYardsDef = [];     //Def
+        this.rushTDDef = [];        //Def
+        this.passTDDef = [];        //Def
+        this.sacked = [];           //Def
+        this.turnoversGain = [];    //Def
+    }
+
+    parseGame(game) {
+        //Expects a json object of a single game instance
+        this.gameID.push(game.id);
+        let gameIndex = this.numGames;
+        this.numGames++;
+        let off = (this.school == game.teams[0].school) ? 0 : 1; //Setting the teams index for this teams offense
+        let def = off ? 0 : 1; //Swapping teams index for this teams defense
+        this.pointsScored[gameIndex] = (game.teams[off].points);
+        this.pointsAllowed[gameIndex] = (game.teams[def].points);
+        for(let i = 0; i < game.teams[off].stats.length; i++) {
+            switch (game.teams[off].stats[i].category) {
+                case "totalYards":
+                    this.yards[gameIndex] = Number(game.teams[off].stats[i].stat);
+                    break;
+                case "rushingYards":
+                    this.rushYards[gameIndex] = Number(game.teams[off].stats[i].stat);
+                    break;
+                case "netPassingYards":
+                    this.passYards[gameIndex] = Number(game.teams[off].stats[i].stat);
+                    break;
+                case "rushingTDs":
+                    this.rushTD[gameIndex] = Number(game.teams[off].stats[i].stat);
+                    break;
+                case "passingTDs":
+                    this.passTD[gameIndex] = Number(game.teams[off].stats[i].stat);
+                    break;
+                case "completionAttempts":
+                    this.passYards[gameIndex] = game.teams[off].stats[i].stat.split('-').map(Number);
+                    //Filling this array with num arrays for [comp, att]
+                    break;
+                case "sacks":
+                    this.sacks[gameIndex] = Number(game.teams[off].stats[i].stat);
+                    break;
+                case "turnovers":
+                    this.turnoversLost[gameIndex] = Number(game.teams[off].stats[i].stat);
+                    break;
+                default:
+                    break;
+            }
+        }
+        for(let i = 0; i < game.teams[def].stats.length; i++) {
+            switch (game.teams[def].stats[i].category) {
+                case "totalYards":
+                    this.yardsDef[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                case "rushingYards":
+                    this.rushYardsDef[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                case "netPassingYards":
+                    this.passYardsDef[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                case "rushingTDs":
+                    this.rushTDDef[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                case "passingTDs":
+                    this.passTDDef[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                case "sacks":
+                    this.sacked[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                case "sacks":
+                    this.sacks[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                case "turnovers":
+                    this.turnoversGain[gameIndex] = Number(game.teams[def].stats[i].stat);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+
 
 let teams = []; //For tracking data of teams to display
 let teamNameLookup = {}; //For a reverse id to teams index lookup
-let teamStats = []; //For populating with objects
+//let teamStats = []; //For populating with objects
 
 async function getData(localurl) {
     return response = await axios.get(localurl)
@@ -68,18 +168,19 @@ async function populateTeams(conferenceToDisplay){
     console.log(teams.length);
 }
 
-//populateTeams("b1g");
+//populateTeams("pac");
 
 async function showTeamData(teamToShow) {
     //Takes a team object from the teams[] array
-    let games = [];
+    games = [];
     let year = "2019";
     //let teamURLname = teamToShow.school.replace(/ /g, "%20"); //convert spaces to URL spaces
-    let teamURLname = "oregon";
+    let teamURLname = "Oregon";
     let oregonID = 2483; //TODO Remove placeholder once an actual team is passed.
     let statsURL = baseURL + "stats/season?year=" + year + "&team=" + teamURLname;
     //let gamesURL = baseURL + "games?year=" + year + "&team=" + teamURLname;
     let gamesURL = baseURL + "games/teams?year=" + year + "&team=" + teamURLname + "&week=";
+    ts = new teamStats(teamURLname)
     for (let i = 0; i < 16; i++){
         //Getting data for all 16 weeks of games, including week 0
         await getData(gamesURL + i)
@@ -87,6 +188,7 @@ async function showTeamData(teamToShow) {
                 if(typeof response.data[0] !== "undefined"){
                     //Filtering BYE weeks
                     games.push(response.data[0]);
+                    ts.parseGame(response.data[0])
                 }
         });
     }
