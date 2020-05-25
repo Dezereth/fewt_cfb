@@ -266,7 +266,9 @@ let teamNameLookup = {}; //For a reverse id to teams index lookup
 
 function resetPage() {
     document.getElementById("teams-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("teams-container").innerHTML = "";
     document.getElementById("single-team-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("games-column").innerHTML = "";
     document.getElementById("game-container").style.display = "none"; //Unhiding teams page
     document.getElementById("conferences-container").style.display = "block"; //Showing Conferences
     games = [];
@@ -338,8 +340,6 @@ async function showTeamData(teamToShow) {
     games = [];
     let year = "2019";
     let teamURLname = teamToShow.replace(/ /g, "%20"); //convert spaces to URL spaces
-    //let teamURLname = "Oregon";
-    //let oregonID = 2483; //TODO Remove placeholder once an actual team is passed.
 
     let gamesURL = baseURL + "games/teams?year=" + year + "&team=" + teamURLname + "&week=";
     //If the week is not included, then the game data is not organized in any coherent way
@@ -365,8 +365,17 @@ async function showTeamData(teamToShow) {
 }
 
 function fillGamesList(school) {
-    document.getElementById("team-record").innerHTML = `Record: ${ts.record[0]} - ${ts.record[1]}`;
     let gamesCol = document.getElementById("games-column");
+    let record = document.createElement("div");
+    record.classList.add("row", "border")
+    record.innerHTML = `<div class="col-12 text-center" id="team-record"></div>`
+    let homeAway = document.createElement("div");
+    homeAway.classList.add("row", "border")
+    homeAway.innerHTML = `<div class="col-6 text-left" id="home">Home</div>
+                    <div class="col-6 text-right" id="away">Away</div>`
+    gamesCol.appendChild(record);
+    gamesCol.appendChild(homeAway);
+    document.getElementById("team-record").innerHTML = `Record: ${ts.record[0]} - ${ts.record[1]}`;
     for(let i = 0; i < ts.numGames; i++){
         let game = document.createElement("div");
         game.classList.add("row", "border");
