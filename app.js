@@ -261,10 +261,18 @@ class teamStats {
     }
 }
 
-
 let teams = []; //For tracking data of teams to display
 let teamNameLookup = {}; //For a reverse id to teams index lookup
-//let teamStats = []; //For populating with objects
+
+function resetPage() {
+    document.getElementById("teams-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("single-team-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("game-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("conferences-container").style.display = "block"; //Showing Conferences
+    games = [];
+    teams = [];
+    
+}
 
 async function getData(localurl) {
     return response = await axios.get(localurl)
@@ -308,7 +316,7 @@ async function populateTeams(conferenceToDisplay){
         team.classList.add("card");
         team.setAttribute("id", `${teams[i].alt_name2}-card`);
         //img = teams[i].logos[0] + imgSize;
-        team.innerHTML = `<a href="#" class="btn btn-fix text-center" id="${teams[i].alt_name2}">
+        team.innerHTML = `<a href="#" class="btn btn-fix text-center" id="${teams[i].alt_name2}" onclick="showTeamData('${teams[i].school}')">
                             <img class=card-img-top img-responsive" id="${teams[i].alt_name2}-img" src="${teams[i].logos[0]}" >
                             <div class="card-block">
                                 <h4 class=card-title">${teams[i].school}</h4>
@@ -323,17 +331,20 @@ async function populateTeams(conferenceToDisplay){
 //populateTeams("aac");
 
 async function showTeamData(teamToShow) {
-    //Takes a team object from the teams[] array
+    document.getElementById("teams-container").style.display = "none"; //Showing Conferences
+    document.getElementById("single-team-container").style.display = "block"; //Unhiding teams page
+    console.log(teamToShow);
+    //Takes a team.school string from the team object
     games = [];
     let year = "2019";
-    //let teamURLname = teamToShow.school.replace(/ /g, "%20"); //convert spaces to URL spaces
-    let teamURLname = "Oregon";
-    let oregonID = 2483; //TODO Remove placeholder once an actual team is passed.
+    let teamURLname = teamToShow.replace(/ /g, "%20"); //convert spaces to URL spaces
+    //let teamURLname = "Oregon";
+    //let oregonID = 2483; //TODO Remove placeholder once an actual team is passed.
 
     let gamesURL = baseURL + "games/teams?year=" + year + "&team=" + teamURLname + "&week=";
     //If the week is not included, then the game data is not organized in any coherent way
 
-    ts = new teamStats(teamURLname) //TODO remove placeholder when team objects are passed
+    ts = new teamStats(teamToShow) //TODO remove placeholder when team objects are passed
     //ts = new teamStats(teamToShow.school)
     document.getElementById("team-name").innerHTML = `${ts.school}`;
     for (let i = 0; i < 16; i++){
@@ -349,8 +360,8 @@ async function showTeamData(teamToShow) {
     }
     console.log(games);
     fillSeasonTable();
-    fillGamesList(teamURLname); //TODO remove placeholder
-    //fillGamesList(teamToShow.school); 
+    //fillGamesList(teamURLname); //TODO remove placeholder
+    fillGamesList(teamToShow); 
 }
 
 function fillGamesList(school) {
@@ -445,4 +456,4 @@ function fillSeasonTable() {
     document.getElementById("turnovers-gained-data-total").innerHTML = `${sum}`;
 }
 
-showTeamData("string");
+//showTeamData("string");
