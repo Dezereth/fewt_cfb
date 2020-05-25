@@ -1,6 +1,6 @@
 const baseURL = "https://api.collegefootballdata.com/";
 const conferencsURL = "https://api.collegefootballdata.com/conferences";
-const imgSize = "&amp;transparent=true&amp;w=150&amp;h=150"
+//const imgSize = "&amp;transparent=true&amp;w=150&amp;h=150" // doesn't appear to work for team logos, just conference ones
 
 let conferenceStrings = {
     acc: "acc",
@@ -10,13 +10,14 @@ let conferenceStrings = {
     pac: "pac"
 }
 
+let teams = [];
 
 async function getData(localurl) {
     return response = await axios.get(localurl)
 }
 
 async function populateTeams(conferenceToDisplay){
-    let teams = [];
+    teams = [];
     //This function will hide (none) the conferences page and display the teams in a conference
     var URL = baseURL + "teams?conference=" + conferenceToDisplay;
     //Making the API call
@@ -42,7 +43,7 @@ async function populateTeams(conferenceToDisplay){
             row.setAttribute("id", `teams-row${j}`);
             page.appendChild(row);
             deck = document.createElement("div");
-            deck.classList.add("card-deck", `col-${(teams.length - i) >= 3? "lg-12" : "md-" + (teams.length -i)*4}`);
+            deck.classList.add("card-deck", `col-${(teams.length - i) >= 3? "lg-12" : "sm-" + (teams.length -i)*4}`);
             deck.setAttribute("id", `teams-deck${j}`);
             row.appendChild(deck);
             j++;
@@ -63,4 +64,4 @@ async function populateTeams(conferenceToDisplay){
     console.log(teams.length);
 }
 
-populateTeams("sec");
+//populateTeams("sec");
