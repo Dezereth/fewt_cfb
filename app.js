@@ -157,6 +157,7 @@ class teamStats {
         this.school = school;
         this.record = [0, 0];       //[W, L]
         this.location = [];         //For storing home (1) or away (0)
+        this.opponent = [];         //Storing 'School' names for logo lookup
         this.gameID = [];
         this.pointsScored = [];     //Off
         this.pointsAllowed = [];    //Def
@@ -185,6 +186,7 @@ class teamStats {
         let off = (this.school == game.teams[0].school) ? 0 : 1; //Setting the teams index for this teams offense
         let def = off ? 0 : 1; //Swapping teams index for this teams defense
         this.location[gameIndex] = (game.teams[off].homeAway === "home") ? 1 : 0;
+        this.opponent[gameIndex] = game.teams[def].school;
         this.pointsScored[gameIndex] = (game.teams[off].points);
         this.pointsAllowed[gameIndex] = (game.teams[def].points);
         if (this.pointsScored[gameIndex] > this.pointsAllowed[gameIndex]){
@@ -333,6 +335,7 @@ async function showTeamData(teamToShow) {
 
     ts = new teamStats(teamURLname) //TODO remove placeholder when team objects are passed
     //ts = new teamStats(teamToShow.school)
+    document.getElementById("team-name").innerHTML = `${ts.school}`;
     for (let i = 0; i < 16; i++){
         //Getting data for all 16 weeks of games, including week 0
         await getData(gamesURL + i)
@@ -345,7 +348,35 @@ async function showTeamData(teamToShow) {
         });
     }
     console.log(games);
-    
+    fillSeasonTable();
+    fillGamesList(teamURLname); //TODO remove placeholder
+    //fillGamesList(teamToShow.school); 
+}
+
+function fillGamesList(school) {
+    document.getElementById("team-record").innerHTML = `Record: ${ts.record[0]} - ${ts.record[1]}`;
+    let gamesCol = document.getElementById("games-column");
+    for(let i = 0; i < ts.numGames; i++){
+        let game = document.createElement("div");
+        game.classList.add("row", "border");
+        let teamLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[school]}.png`
+        let oppLogo;
+        if (logoLookups[ts.opponent[i]] === undefined) {
+            oppLogo = fcsLogo;
+        } else {
+            oppLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[ts.opponent[i]]}.png`;
+        }
+        game.innerHTML = `
+            <img class="col-3 img-responsive" src="${ts.location[i] ? teamLogo : oppLogo}">
+            <div class="col-6 text-center ${((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"}">${ts.location[i] ? ts.pointsScored[i] : ts.pointsAllowed[i]}-${ts.location[i] ? ts.pointsAllowed[i] : ts.pointsScored[i]}</div>
+            <img class="col-3 img-responsive" src="${ts.location[i] ? oppLogo : teamLogo}">
+        `;
+        gamesCol.appendChild(game);
+
+    }
+}
+
+function fillSeasonTable() {
     //Filling in Stats Table Data
     let sum;
     //Points Scored
@@ -380,7 +411,6 @@ async function showTeamData(teamToShow) {
     sum = ts.turnoversLost.reduce(summer);
     document.getElementById("turnovers-lost-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
     document.getElementById("turnovers-lost-data-total").innerHTML = `${sum}`;
-
     //Points Allowed
     sum = ts.pointsAllowed.reduce(summer);
     document.getElementById("points-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
@@ -413,7 +443,6 @@ async function showTeamData(teamToShow) {
     sum = ts.turnoversGain.reduce(summer);
     document.getElementById("turnovers-gained-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
     document.getElementById("turnovers-gained-data-total").innerHTML = `${sum}`;
-
 }
 
 showTeamData("string");
