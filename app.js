@@ -4,6 +4,8 @@ const conferencsURL = "https://api.collegefootballdata.com/conferences";
 const independents = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/18.png";
 const fcsLogo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/32.png";
 
+var myChart; //Global declaration so it can be destroyed before writing a new one.
+
 let conferenceStrings = {
     acc: "acc",
     b12: "b12",
@@ -377,10 +379,11 @@ function fillGamesList(school) {
     gamesCol.appendChild(record);
     gamesCol.appendChild(homeAway);
     document.getElementById("team-record").innerHTML = `Record: ${ts.record[0]} - ${ts.record[1]}`;
+    let teamLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[school][0]}.png`;
     for(let i = 0; i < ts.numGames; i++){
         let game = document.createElement("div");
         game.classList.add("row", "border");
-        let teamLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[school][0]}.png`
+        //TODO put teamLogo declaration outside, shouldn't break anything, but if it does, it went here
         let oppLogo;
         if (logoLookups[ts.opponent[i]] === undefined) {
             oppLogo = fcsLogo;
@@ -467,21 +470,51 @@ function fillSeasonTable() {
 }
 
 function buildChart(dataType) {
-  new Chart(document.getElementById("statsCanvas"), {
-    type: 'doughnut',
+    const opponentBackgroundColors = [];
+    const opponentBorderColors = [];
+    const primaryColor = logoLookups[ts.school][1]
+    const secondaryColor = logoLookups[ts.school][2]
+    for(let i = 0; i < ts.numGames; i++) {
+        if (logoLookups[ts.opponent[i]] === undefined) {
+            //No data for FCS colors, using teams' secondary color
+            opponentBackgroundColors.push(addHue(secondaryColor, 0.8));
+            opponentBorderColors.push(addHue(secondaryColor, 1));
+        } else {
+            opponentBackgroundColors.push(addHue(logoLookups[ts.opponent[i]][1], 0.6));
+            opponentBorderColors.push(addHue(logoLookups[ts.opponent[i]][1], 1));
+        }
+    }
+    if(myChart !== undefined) {
+        myChart.destroy();
+    }
+    myChart = new Chart(document.getElementById("statsCanvas"), {
+    type: 'bar',
     data: {
-      labels: Object.keys(eyes),
-      datasets: [{
-        data: Object.values(eyes),
-        backgroundColor: backgroundColor,
-        borderColor: borderColor
-      }]
+        labels: ts.opponent,
+        datasets: [{
+            label: document.getElementById(`${dataType}-title`).innerHTML,
+            data: ts[dataType],
+            backgroundColor: opponentBackgroundColors,
+            borderColor: opponentBorderColors,
+            borderWidth: 1
+        }]
     },
     options: {
-      legend: {
+        legend: {
         position: 'bottom'
-      }
+        }
     }
-  })
+    })
 }
+
+function addHue(color, alpha) {
+    /*Helper function for building chart colors
+      <color>: a string for color ex: '#123456'
+      <alpha>: a number for the opaqueness value ex: 0.5
+      Returns: <string>
+        'rgb(18, 52, 86, 0.5)
+    */
+    return `rgb(${parseInt(color.slice(1,3), 16)}, ${parseInt(color.slice(3,5), 16)}, ${parseInt(color.slice(5), 16)}, ${alpha})`
+}
+
 //showTeamData("string");

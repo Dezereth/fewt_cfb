@@ -89,8 +89,8 @@
                         </tr>
                     </thead>
                     <tbody id="offensive-data-body">
-                        <tr id="points-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="points-title" >
+                        <tr id="pointsScored" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="pointsScored-title" >
                                 Points Scored
                             </td>
                             <td id="points-data-avg">
@@ -98,7 +98,7 @@
                             <td id="points-data-total">
                             </td>
                         </tr>
-                        <tr id="yards-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
+                        <tr id="yards" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
                             <td id="yards-title">
                                 Yards gained
                             </td>
@@ -107,8 +107,8 @@
                             <td id="yards-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-yards-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="pass-yards-title">
+                        <tr id="passYards" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="passYards-title">
                                 Passing Yards
                             </td>
                             <td id="pass-yards-data-avg">
@@ -116,8 +116,8 @@
                             <td id="pass-yards-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-yards-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="rush-yards-title">
+                        <tr id="rushYards" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="rushYards-title">
                                 Rushing Yards
                             </td>
                             <td id="rush-yards-data-avg">
@@ -125,8 +125,8 @@
                             <td id="rush-yards-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-td-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="pass-td-title">
+                        <tr id="passTD" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="passTD-title">
                                 Passing Touchdowns
                             </td>
                             <td id="pass-td-data-avg">
@@ -134,8 +134,8 @@
                             <td id="pass-td-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-td-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="rush-td-title">
+                        <tr id="rushTD" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="rushTD-title">
                                 Rushing Touchdowns
                             </td>
                             <td id="rush-td-data-avg">
@@ -143,8 +143,8 @@
                             <td id="rush-td-data-total">
                             </td>
                         </tr>
-                        <tr id="sacks-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="sacks-allowed-title">
+                        <tr id="sacked" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="sacked-title">
                                 Sacks Allowed
                             </td>
                             <td id="sacks-allowed-data-avg">
@@ -152,8 +152,8 @@
                             <td id="sacks-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="turnovers-lost-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td class="btn" id="turnovers-lost-title">
+                        <tr id="turnoversLost" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="turnoversLost-title">
                                 Turnovers Lost
                             </td>
                             <td id="turnovers-lost-data-avg">
@@ -176,8 +176,8 @@
                         </tr>
                     </thead>
                     <tbody id="defensive-data-body">
-                        <tr id="points-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="points-allowed-title">
+                        <tr id="pointsAllowed" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="pointsAllowed-title">
                                 Points Allowed
                             </td>
                             <td id="points-allowed-data-avg">
@@ -185,8 +185,8 @@
                             <td id="points-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="yards-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="yards-allowed-title">
+                        <tr id="yardsDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="yardsDef-title">
                                 Yards Allowed
                             </td>
                             <td id="yards-allowed-data-avg">
@@ -194,8 +194,8 @@
                             <td id="yards-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-yards-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="pass-yards-allowed-title">
+                        <tr id="passYardsDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="passYardsDef-title">
                                 Passing Yards Allowed
                             </td>
                             <td id="pass-yards-allowed-data-avg">
@@ -203,8 +203,8 @@
                             <td id="pass-yards-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-yards-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="rush-yards-allowed-title">
+                        <tr id="rushYardsDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="rushYardsDef-title">
                                 Rushing Yards Allowed
                             </td>
                             <td id="rush-yards-allowed-data-avg">
@@ -212,8 +212,8 @@
                             <td id="rush-yards-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-td-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="pass-td-allowed-title">
+                        <tr id="passTDDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="passTDDef-title">
                                 Passing Touchdowns Allowed
                             </td>
                             <td id="pass-td-allowed-data-avg">
@@ -221,8 +221,8 @@
                             <td id="pass-td-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-td-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="rush-td-allowed-title">
+                        <tr id="rushTDDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="rushTDDef-title">
                                 Rushing Touchdowns Allowed
                             </td>
                             <td id="rush-td-allowed-data-avg">
@@ -230,7 +230,7 @@
                             <td id="rush-td-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="sacks-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
+                        <tr id="sacks" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
                             <td id="sacks-title">
                                 Sacks
                             </td>
@@ -239,8 +239,8 @@
                             <td id="sacks-data-total">
                             </td>
                         </tr>
-                        <tr id="turnovers-gained-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
-                            <td id="turnovers-gained-title">
+                        <tr id="turnoversGain" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                            <td id="turnoversGain-title">
                                 Turnovers Gained
                             </td>
                             <td id="turnovers-gained-data-avg">
