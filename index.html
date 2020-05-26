@@ -90,8 +90,8 @@
                     </thead>
                     <tbody id="offensive-data-body">
                         <tr id="points-row">
-                            <td id="points-title">
-                                Points Scored
+                            <td id="points-title" >
+                                <button type="button" data-toggle="modal" data-target="#modalCanvas" >Points Scored</button>
                             </td>
                             <td id="points-data-avg">
                             </td>
@@ -250,19 +250,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="modal" id="modalCanvas" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <canvas id="statsCanvas"></canvas>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>  
-                    </div>
-
-                </div>
             </div>
             <div class="col-md-4 border" id="games-column">
             </div>
@@ -270,8 +257,23 @@
     </div>
     <div class="container mx-auto" id="game-container" >
     </div>
+    <!-- Modal -->
+    <div class="modal" id="modalCanvas" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <canvas id="statsCanvas"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>  
+        </div>
+    </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="app.js"></script>
 </body>
 </html>
