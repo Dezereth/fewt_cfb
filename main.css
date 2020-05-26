@@ -2,6 +2,11 @@ body {
     padding-top: 70px;
 }
 
+.clickable-row {
+    /*The stat data rows will pop up a modal, this adds hover for clickability*/
+    cursor: pointer;
+}
+
 #conferences-container {
     //display: none;
 }

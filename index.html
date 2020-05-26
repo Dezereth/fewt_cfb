@@ -89,16 +89,16 @@
                         </tr>
                     </thead>
                     <tbody id="offensive-data-body">
-                        <tr id="points-row">
+                        <tr id="points-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="points-title" >
-                                <button type="button" data-toggle="modal" data-target="#modalCanvas" >Points Scored</button>
+                                Points Scored
                             </td>
                             <td id="points-data-avg">
                             </td>
                             <td id="points-data-total">
                             </td>
                         </tr>
-                        <tr id="yards-row">
+                        <tr id="yards-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="yards-title">
                                 Yards gained
                             </td>
@@ -107,7 +107,7 @@
                             <td id="yards-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-yards-row">
+                        <tr id="pass-yards-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="pass-yards-title">
                                 Passing Yards
                             </td>
@@ -116,7 +116,7 @@
                             <td id="pass-yards-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-yards-row">
+                        <tr id="rush-yards-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="rush-yards-title">
                                 Rushing Yards
                             </td>
@@ -125,7 +125,7 @@
                             <td id="rush-yards-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-td-row">
+                        <tr id="pass-td-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="pass-td-title">
                                 Passing Touchdowns
                             </td>
@@ -134,7 +134,7 @@
                             <td id="pass-td-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-td-row">
+                        <tr id="rush-td-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="rush-td-title">
                                 Rushing Touchdowns
                             </td>
@@ -143,7 +143,7 @@
                             <td id="rush-td-data-total">
                             </td>
                         </tr>
-                        <tr id="sacks-allowed-row">
+                        <tr id="sacks-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="sacks-allowed-title">
                                 Sacks Allowed
                             </td>
@@ -152,7 +152,7 @@
                             <td id="sacks-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="turnovers-lost-row">
+                        <tr id="turnovers-lost-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td class="btn" id="turnovers-lost-title">
                                 Turnovers Lost
                             </td>
@@ -176,7 +176,7 @@
                         </tr>
                     </thead>
                     <tbody id="defensive-data-body">
-                        <tr id="points-allowed-row">
+                        <tr id="points-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="points-allowed-title">
                                 Points Allowed
                             </td>
@@ -185,7 +185,7 @@
                             <td id="points-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="yards-allowed-row">
+                        <tr id="yards-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="yards-allowed-title">
                                 Yards Allowed
                             </td>
@@ -194,7 +194,7 @@
                             <td id="yards-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-yards-allowed-row">
+                        <tr id="pass-yards-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="pass-yards-allowed-title">
                                 Passing Yards Allowed
                             </td>
@@ -203,7 +203,7 @@
                             <td id="pass-yards-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-yards-allowed-row">
+                        <tr id="rush-yards-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="rush-yards-allowed-title">
                                 Rushing Yards Allowed
                             </td>
@@ -212,7 +212,7 @@
                             <td id="rush-yards-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="pass-td-allowed-row">
+                        <tr id="pass-td-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="pass-td-allowed-title">
                                 Passing Touchdowns Allowed
                             </td>
@@ -221,7 +221,7 @@
                             <td id="pass-td-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="rush-td-allowed-row">
+                        <tr id="rush-td-allowed-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="rush-td-allowed-title">
                                 Rushing Touchdowns Allowed
                             </td>
@@ -230,7 +230,7 @@
                             <td id="rush-td-allowed-data-total">
                             </td>
                         </tr>
-                        <tr id="sacks-row">
+                        <tr id="sacks-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="sacks-title">
                                 Sacks
                             </td>
@@ -239,7 +239,7 @@
                             <td id="sacks-data-total">
                             </td>
                         </tr>
-                        <tr id="turnovers-gained-row">
+                        <tr id="turnovers-gained-row" class="clickable-row" data-toggle="modal" data-target="#modalCanvas">
                             <td id="turnovers-gained-title">
                                 Turnovers Gained
                             </td>
@@ -259,10 +259,13 @@
     </div>
     <!-- Modal -->
     <div class="modal" id="modalCanvas" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
+                <div class="modal-header" id="modal-header">
+                </div>
                 <div class="modal-body">
-                    <canvas id="statsCanvas"></canvas>
+                    <canvas id="statsCanvas">
+                    </canvas>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
