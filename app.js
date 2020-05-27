@@ -339,6 +339,7 @@ async function showTeamData(teamToShow) {
     document.getElementById("teams-container").style.display = "none"; //Showing Conferences
     document.getElementById("single-team-container").style.display = "block"; //Unhiding teams page
     document.getElementById("games-column").textContent = ''; //TODO propagate this clearing method to other areas instead of innerHTML. stackoverflow.com/questions/3955229 says is faster.
+    for (let el of document.querySelectorAll('.season-data')) el.style.visibility = 'hidden'; //Hide stats for when already filled stackoverflow.com/questions/18414384
     console.log(teamToShow);
     //Takes a team.school string from the team object
     games = [];
@@ -364,6 +365,7 @@ async function showTeamData(teamToShow) {
     }
     console.log(games);
     fillSeasonTable();
+    for (let el of document.querySelectorAll('.season-data')) el.style.visibility = ''; //unhide stats
     //fillGamesList(teamURLname); //TODO remove placeholder
     fillGamesList(teamToShow); 
 }
