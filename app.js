@@ -338,6 +338,7 @@ async function populateTeams(conferenceToDisplay){
 async function showTeamData(teamToShow) {
     document.getElementById("teams-container").style.display = "none"; //Showing Conferences
     document.getElementById("single-team-container").style.display = "block"; //Unhiding teams page
+    document.getElementById("games-column").textContent = ''; //TODO propagate this clearing method to other areas instead of innerHTML. stackoverflow.com/questions/3955229 says is faster.
     console.log(teamToShow);
     //Takes a team.school string from the team object
     games = [];
@@ -385,16 +386,39 @@ function fillGamesList(school) {
         game.classList.add("row", "border");
         //TODO put teamLogo declaration outside, shouldn't break anything, but if it does, it went here
         let oppLogo;
+        let fbs = true;
         if (logoLookups[ts.opponent[i]] === undefined) {
             oppLogo = fcsLogo;
+            fbs = false;
         } else {
             oppLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[ts.opponent[i]][0]}.png`;
         }
-        game.innerHTML = `
-            <img class="col-3 img-responsive" src="${ts.location[i] ? teamLogo : oppLogo}">
-            <div class="col-6 text-center ${((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"}">${ts.location[i] ? ts.pointsScored[i] : ts.pointsAllowed[i]}-${ts.location[i] ? ts.pointsAllowed[i] : ts.pointsScored[i]}</div>
-            <img class="col-3 img-responsive" src="${ts.location[i] ? oppLogo : teamLogo}">
-        `;
+        //TODO: Rework the inner HTML to building objects naturally.
+        let team1 = document.createElement("img");
+        let team2 = document.createElement("img");
+        let score = document.createElement("u");
+        score.classList.add("col-6", "text-center", "align-self-center", "font-weight-bold",(((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"),);
+        score.innerHTML = `${ts.location[i] ? ts.pointsScored[i] : ts.pointsAllowed[i]}-${ts.location[i] ? ts.pointsAllowed[i] : ts.pointsScored[i]}`;
+        team1.classList.add("col-3", "img-responsive")
+        team2.classList.add("col-3", "img-responsive")
+        if (ts.location[i]) {
+            team1.src = teamLogo;
+            team2.src = oppLogo;
+            if(fbs) {
+                team2.classList.add("clickable-row");
+                team2.addEventListener("click", function() {showTeamData(ts.opponent[i])} );
+            }
+        } else {
+            team2.src = teamLogo;
+            team1.src = oppLogo;
+            if(fbs) {
+                team1.classList.add("clickable-row");
+                team1.addEventListener("click", function () {showTeamData(ts.opponent[i])} );
+            }
+        }
+        game.appendChild(team1);
+        game.appendChild(score);
+        game.appendChild(team2);
         gamesCol.appendChild(game);
 
     }
