@@ -485,26 +485,49 @@ function buildChart(dataType) {
         }
     }
     if(myChart !== undefined) {
-        myChart.destroy();
+        myChart.destroy(); //Clearing past charts
     }
+    document.getElementById("modal-header").innerHTML = document.getElementById(`${dataType}-title`).innerHTML.trim();
     myChart = new Chart(document.getElementById("statsCanvas"), {
     type: 'bar',
     data: {
         labels: ts.opponent,
         datasets: [{
-            label: document.getElementById(`${dataType}-title`).innerHTML,
+            label: document.getElementById(`${dataType}-title`).innerHTML.trim(),
             data: ts[dataType],
             backgroundColor: opponentBackgroundColors,
             borderColor: opponentBorderColors,
-            borderWidth: 1
+            borderWidth: 1,
+            order: 1,
+        }, {
+            type: 'line',
+            label: "Avg.",
+            data: rollingAverage(ts[dataType]),
+            backgroundColor: 'rgba(0, 0, 0, 1)',
+            borderColor: 'rgba(0, 0, 0, 1)',
+            order: 3,
+            fill: false,
+            lineTension: 0,
+            pointStyle: 'rectRot',
         }]
     },
     options: {
         legend: {
-        position: 'bottom'
+            display: false,
         }
     }
     })
+}
+
+function rollingAverage(array) {
+    //Helper function takes an array, returns rolling average of the values
+    let sum = 0;
+    let avg = [];
+    for(let i = 0; i < array.length; i++) {
+        sum += array[i];
+        avg.push((sum/(i+1)).toFixed(2));
+    }
+    return avg;
 }
 
 function addHue(color, alpha) {
