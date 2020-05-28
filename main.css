@@ -7,8 +7,18 @@ body {
     cursor: pointer;
 }
 
+.game-page-scores {
+    /*This sets the font to be varying sizes as the page resizes*/
+    font-size: 5.5vw;
+}
+
+.game-page-date {
+    /*This sets the font to be varying sizes as the page resizes*/
+    font-size: 2.5vw;
+}
+
 #conferences-container {
-    //display: none;
+    display: none;
 }
 
 #teams-container {
@@ -20,5 +30,5 @@ body {
 }
 
 #game-container {
-    display: none;
+    //display: none;
 }

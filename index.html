@@ -305,21 +305,26 @@
     </div>
     <div class="container mx-auto" id="game-container" >
         <div class="row" id="game-row1">
-            <div class="card col-3" id="home-card">
+            <div class="card col-3 p-0" id="home-card">
                 <a href="#" class="btn btn-fix text-center" id="game-home-team" >
-                    <img class="card-img-top img-responsive"" id="game-home-img" >
+                    <img class="card-img-top img-responsive" id="game-home-img">
                     <div class="card-block">
                         <h4 class=card-title">HOME</h4>
                     </div>
                 </a>
             </div>
-            <div class="col-6 justify-content-center">
-                <div class="text-center" id="game-score">19-34</div>
-                <div class="text-center" id="game-date">10/20/19</div>
+            <div class="col-2 justify-content-center my-auto">
+                <div class="text-center game-page-scores rounded-circle" id="game-score-home"></div>
             </div>
-            <div class="card col-3" id="away-card">
+            <div class="col-2 justify-content-center my-auto">
+                <div class="text-center game-page-date" id="game-date"></div>
+            </div>
+            <div class="col-2 justify-content-center my-auto">
+                <div class="text-center game-page-scores rounded-circle" id="game-score-away"></div>
+            </div>
+            <div class="card col-3 p-0" id="away-card">
                 <a href="#" class="btn btn-fix text-center" id="game-away-team" >
-                    <img class="card-img-top img-responsive"" id="game-away-img" >
+                    <img class="card-img-top img-responsive" id="game-away-img" >
                     <div class="card-block">
                         <h4 class=card-title">AWAY</h4>
                     </div>
@@ -479,7 +484,7 @@
                         <td id="game-possession-title" class="font-weight-bold text-center col-6">
                             Time of Possession
                         </td>
-                        <td id="game-possesion-away" class="game-data text-center  col-3">
+                        <td id="game-possession-away" class="game-data text-center  col-3">
                         </td>
                     </tr>
             </table>
