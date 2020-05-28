@@ -268,15 +268,14 @@ let teams = []; //For tracking data of teams to display
 let teamNameLookup = {}; //For a reverse id to teams index lookup
 
 function resetPage() {
-    document.getElementById("teams-container").style.display = "none"; //Unhiding teams page
-    document.getElementById("teams-container").innerHTML = "";
-    document.getElementById("single-team-container").style.display = "none"; //Unhiding teams page
-    document.getElementById("games-column").innerHTML = "";
-    document.getElementById("game-container").style.display = "none"; //Unhiding teams page
-    document.getElementById("conferences-container").style.display = "block"; //Showing Conferences
     games = [];
     teams = [];
-    
+    document.getElementById("teams-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("teams-container").textContent = "";
+    document.getElementById("single-team-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("games-column").textContent = "";
+    document.getElementById("game-container").style.display = "none"; //Unhiding teams page
+    document.getElementById("conferences-container").style.display = "block"; //Showing Conferences
 }
 
 async function getData(localurl) {
@@ -336,13 +335,19 @@ async function populateTeams(conferenceToDisplay){
 //populateTeams("aac");
 
 async function showTeamData(teamToShow) {
-    document.getElementById("teams-container").style.display = "none"; //Showing Conferences
+    console.log(teamToShow)
+    games = [];
+    document.getElementById("teams-container").style.display = "none"; //Hiding conferences if necessary
+    document.getElementById('game-container').style.display = "none"; //Hiding game data if necessary
     document.getElementById("single-team-container").style.display = "block"; //Unhiding teams page
-    document.getElementById("games-column").textContent = ''; //TODO propagate this clearing method to other areas instead of innerHTML. stackoverflow.com/questions/3955229 says is faster.
+    if(ts !== undefined && ts.school == teamToShow) {
+        //This data is already showing, lets not fetch it again
+        return;
+    }
+    document.getElementById("games-column").textContent = ''; //TODid propagate this clearing method to other areas instead of innerHTML. stackoverflow.com/questions/3955229 says is faster.
     for (let el of document.querySelectorAll('.season-data')) el.style.visibility = 'hidden'; //Hide stats for when already filled stackoverflow.com/questions/18414384
     console.log(teamToShow);
     //Takes a team.school string from the team object
-    games = [];
     let year = "2019";
     let teamURLname = teamToShow.replace(/ /g, "%20"); //convert spaces to URL spaces
 
@@ -350,7 +355,7 @@ async function showTeamData(teamToShow) {
     //If the week is not included, then the game data is not organized in any coherent way
 
     ts = new teamStats(teamToShow) 
-    document.getElementById("team-name").innerHTML = `${ts.school}`;
+    document.getElementById("team-name").textContent = `${ts.school}`;
     for (let i = 0; i < 16; i++){
         //Getting data for all 16 weeks of games, including week 0
         await getData(gamesURL + i)
@@ -363,6 +368,7 @@ async function showTeamData(teamToShow) {
         });
     }
     console.log(games);
+    console.log(ts);
     fillSeasonTable();
     for (let el of document.querySelectorAll('.season-data')) el.style.visibility = ''; //unhide stats
     fillGamesList(teamToShow); 
@@ -379,12 +385,11 @@ function fillGamesList(school) {
                     <div class="col-6 text-right" id="away">Away</div>`
     gamesCol.appendChild(record);
     gamesCol.appendChild(homeAway);
-    document.getElementById("team-record").innerHTML = `Record: ${ts.record[0]} - ${ts.record[1]}`;
+    document.getElementById("team-record").textContent = `Record: ${ts.record[0]} - ${ts.record[1]}`;
     let teamLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[school][0]}.png`;
     for(let i = 0; i < ts.numGames; i++){
         let game = document.createElement("div");
         game.classList.add("row", "border");
-        //TODO put teamLogo declaration outside, shouldn't break anything, but if it does, it went here
         let oppLogo;
         let fbs = true;
         if (logoLookups[ts.opponent[i]] === undefined) {
@@ -393,12 +398,12 @@ function fillGamesList(school) {
         } else {
             oppLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[ts.opponent[i]][0]}.png`;
         }
-        //TODO: Rework the inner HTML to building objects naturally.
         let team1 = document.createElement("img");
         let team2 = document.createElement("img");
         let score = document.createElement("u");
-        score.classList.add("col-6", "text-center", "align-self-center", "font-weight-bold",(((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"),);
-        score.innerHTML = `${ts.location[i] ? ts.pointsScored[i] : ts.pointsAllowed[i]}-${ts.location[i] ? ts.pointsAllowed[i] : ts.pointsScored[i]}`;
+        score.classList.add("clickable-row", "col-6", "text-center", "align-self-center", "font-weight-bold",(((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"),);
+        score.textContent = `${ts.location[i] ? ts.pointsScored[i] : ts.pointsAllowed[i]}-${ts.location[i] ? ts.pointsAllowed[i] : ts.pointsScored[i]}`;
+        score.addEventListener("click", function() {showGameData(ts.gameID[i])})
         team1.classList.add("col-3", "img-responsive")
         team2.classList.add("col-3", "img-responsive")
         if (ts.location[i]) {
@@ -429,68 +434,68 @@ function fillSeasonTable() {
     let sum;
     //Points Scored
     sum = ts.pointsScored.reduce(summer);
-    document.getElementById("points-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("points-data-total").innerHTML = `${sum}`;
+    document.getElementById("points-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("points-data-total").textContent = `${sum}`;
     //Yards Gained
     sum = ts.yards.reduce(summer);
-    document.getElementById("yards-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("yards-data-total").innerHTML = `${sum}`;
+    document.getElementById("yards-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("yards-data-total").textContent = `${sum}`;
     //Pass Yards Gained
     sum = ts.passYards.reduce(summer);
-    document.getElementById("pass-yards-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("pass-yards-data-total").innerHTML = `${sum}`;
+    document.getElementById("pass-yards-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("pass-yards-data-total").textContent = `${sum}`;
     //Rush Yards Gained
     sum = ts.rushYards.reduce(summer);
-    document.getElementById("rush-yards-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("rush-yards-data-total").innerHTML = `${sum}`;
+    document.getElementById("rush-yards-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("rush-yards-data-total").textContent = `${sum}`;
     //Pass Touchdowns
     sum = ts.passTD.reduce(summer);
-    document.getElementById("pass-td-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("pass-td-data-total").innerHTML = `${sum}`;
+    document.getElementById("pass-td-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("pass-td-data-total").textContent = `${sum}`;
     //Rush Touchdowns
     sum = ts.rushTD.reduce(summer);
-    document.getElementById("rush-td-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("rush-td-data-total").innerHTML = `${sum}`;
+    document.getElementById("rush-td-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("rush-td-data-total").textContent = `${sum}`;
     //Sacks Allowed
     sum = ts.sacked.reduce(summer);
-    document.getElementById("sacks-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("sacks-allowed-data-total").innerHTML = `${sum}`;
+    document.getElementById("sacks-allowed-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("sacks-allowed-data-total").textContent = `${sum}`;
     //Turnovers Lost
     sum = ts.turnoversLost.reduce(summer);
-    document.getElementById("turnovers-lost-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("turnovers-lost-data-total").innerHTML = `${sum}`;
+    document.getElementById("turnovers-lost-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("turnovers-lost-data-total").textContent = `${sum}`;
     //Points Allowed
     sum = ts.pointsAllowed.reduce(summer);
-    document.getElementById("points-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("points-allowed-data-total").innerHTML = `${sum}`;
+    document.getElementById("points-allowed-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("points-allowed-data-total").textContent = `${sum}`;
     //Yards Allowed
     sum = ts.yardsDef.reduce(summer);
-    document.getElementById("yards-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("yards-allowed-data-total").innerHTML = `${sum}`;
+    document.getElementById("yards-allowed-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("yards-allowed-data-total").textContent = `${sum}`;
     //Pass Yards Allowed
     sum = ts.passYardsDef.reduce(summer);
-    document.getElementById("pass-yards-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("pass-yards-allowed-data-total").innerHTML = `${sum}`;
+    document.getElementById("pass-yards-allowed-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("pass-yards-allowed-data-total").textContent = `${sum}`;
     //Rush Yards Allowed
     sum = ts.rushYardsDef.reduce(summer);
-    document.getElementById("rush-yards-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("rush-yards-allowed-data-total").innerHTML = `${sum}`;
+    document.getElementById("rush-yards-allowed-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("rush-yards-allowed-data-total").textContent = `${sum}`;
     //Pass Touchdowns Allowed
     sum = ts.passTDDef.reduce(summer);
-    document.getElementById("pass-td-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("pass-td-allowed-data-total").innerHTML = `${sum}`;
+    document.getElementById("pass-td-allowed-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("pass-td-allowed-data-total").textContent = `${sum}`;
     //Rush Touchdowns Allowed
     sum = ts.rushTDDef.reduce(summer);
-    document.getElementById("rush-td-allowed-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("rush-td-allowed-data-total").innerHTML = `${sum}`;
+    document.getElementById("rush-td-allowed-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("rush-td-allowed-data-total").textContent = `${sum}`;
     //Sacks
     sum = ts.sacks.reduce(summer);
-    document.getElementById("sacks-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("sacks-data-total").innerHTML = `${sum}`;
+    document.getElementById("sacks-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("sacks-data-total").textContent = `${sum}`;
     //Turnovers Gained
     sum = ts.turnoversGain.reduce(summer);
-    document.getElementById("turnovers-gained-data-avg").innerHTML = `${(sum/ts.numGames).toFixed(2)}`;
-    document.getElementById("turnovers-gained-data-total").innerHTML = `${sum}`;
+    document.getElementById("turnovers-gained-data-avg").textContent = `${(sum/ts.numGames).toFixed(2)}`;
+    document.getElementById("turnovers-gained-data-total").textContent = `${sum}`;
 }
 
 function buildChart(dataType) {
@@ -511,13 +516,13 @@ function buildChart(dataType) {
     if(myChart !== undefined) {
         myChart.destroy(); //Clearing past charts
     }
-    document.getElementById("modal-header").innerHTML = document.getElementById(`${dataType}-title`).innerHTML.trim();
+    document.getElementById("modal-header").textContent = document.getElementById(`${dataType}-title`).innerText;
     myChart = new Chart(document.getElementById("statsCanvas"), {
     type: 'bar',
     data: {
         labels: ts.opponent,
         datasets: [{
-            label: document.getElementById(`${dataType}-title`).innerHTML.trim(),
+            label: document.getElementById(`${dataType}-title`).innerText,
             data: ts[dataType],
             backgroundColor: opponentBackgroundColors,
             borderColor: opponentBorderColors,
@@ -544,7 +549,7 @@ function buildChart(dataType) {
 }
 
 async function showGameData(gameID) {
-    gameID = "401114194"; //TODO Remove placeholder
+    //gameID = "401114194"; //TODO Remove placeholder
     document.getElementById("single-team-container").style.display = "none"; //Showing Conferences
     document.getElementById("game-container").style.display = "block"; //Unhiding teams page
     for (let el of document.querySelectorAll('.game-data')) el.style.visibility = 'hidden'; //Hide stats for when already filled stackoverflow.com/questions/18414384
@@ -566,19 +571,19 @@ async function showGameData(gameID) {
     let homeLogo, awayLogo;
     let fbsHome = true;
     let fbsAway = true;
-    games.push(game)
-    games.push(gameBasic)
+    //games.push(game)
+    //games.push(gameBasic)
     document.getElementById("game-home-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`;
     document.getElementById("game-away-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
  
-    if (logoLookups[game.teams[0].school] !== undefined) {
-        document.getElementById("game-home-team").addEventListener("click", function() {showTeamData(game.teams[0].school)} );
+    if (logoLookups[gameBasic.home_team] !== undefined) {
+        document.getElementById("game-home-team").addEventListener("click", function() {showTeamData(gameBasic.home_team)} );
     } else {
         document.getElementById("game-home-team").classList.remove("btn");
         document.getElementById("game-home-team").removeAttribute("href");
     }
-    if (logoLookups[game.teams[1].school] !== undefined) {
-        document.getElementById("game-away-team").addEventListener("click", function() {showTeamData(game.teams[1].school)} );
+    if (logoLookups[gameBasic.away_team] !== undefined) {
+        document.getElementById("game-away-team").addEventListener("click", function() {showTeamData(gameBasic.away_team)} );
     } else {
         document.getElementById("game-away-team").classList.remove("btn");
         document.getElementById("game-away-team").removeAttribute("href");
@@ -608,115 +613,123 @@ async function showGameData(gameID) {
 }
 
 function fillGameData(game) {
-    for(let i = 0; i < game.teams[0].stats.length; i++) {
-        switch (game.teams[0].stats[i].category) {
+    let home_team, away_team;
+    if(game.teams[0].homeAway === "home") {
+        home_team = 0;
+        away_team = 1;
+    } else {
+        home_team = 1;
+        away_team = 0;
+    }
+    for(let i = 0; i < game.teams[home_team].stats.length; i++) {
+        switch (game.teams[home_team].stats[i].category) {
             case "totalYards":
-                document.getElementById("game-yards-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-yards-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "netPassingYards":
-                document.getElementById("game-pass-yards-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-pass-yards-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "completionAttempts":
-                document.getElementById("game-compatt-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-compatt-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "yardsPerPass":
-                document.getElementById("game-ypp-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-ypp-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "passingTDs":
-                document.getElementById("game-pass-td-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-pass-td-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "rushingYards":
-                document.getElementById("game-rush-yards-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-rush-yards-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "rushingAttempts":
-                document.getElementById("game-rushes-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-rushes-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "yardsPerRushAttempt":
-                document.getElementById("game-ypr-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-ypr-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "rushingTDs":
-                document.getElementById("game-rush-td-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-rush-td-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "firstDowns":
-                document.getElementById("game-first-downs-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-first-downs-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "thirdDownEff":
-                document.getElementById("game-third-down-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-third-down-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "fourthDownEff":
-                document.getElementById("game-fourth-down-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-fourth-down-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "tackles":
-                document.getElementById("game-tackles-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-tackles-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "sacks":
-                document.getElementById("game-sacks-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-sacks-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "turnovers":
-                document.getElementById("game-tos-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-tos-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "totalPenaltiesYards":
-                document.getElementById("game-penalty-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-penalty-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             case "possessionTime":
-                document.getElementById("game-possession-home").textContent = game.teams[0].stats[i].stat;
+                document.getElementById("game-possession-home").textContent = game.teams[home_team].stats[i].stat;
                 break;
             default:
                 break;
         }
     }
-    for(let i = 0; i < game.teams[1].stats.length; i++) {
-        switch (game.teams[1].stats[i].category) {
+    for(let i = 0; i < game.teams[away_team].stats.length; i++) {
+        switch (game.teams[away_team].stats[i].category) {
             case "totalYards":
-                document.getElementById("game-yards-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-yards-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "netPassingYards":
-                document.getElementById("game-pass-yards-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-pass-yards-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "completionAttempts":
-                document.getElementById("game-compatt-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-compatt-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "yardsPerPass":
-                document.getElementById("game-ypp-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-ypp-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "passingTDs":
-                document.getElementById("game-pass-td-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-pass-td-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "rushingYards":
-                document.getElementById("game-rush-yards-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-rush-yards-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "rushingAttempts":
-                document.getElementById("game-rushes-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-rushes-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "yardsPerRushAttempt":
-                document.getElementById("game-ypr-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-ypr-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "rushingTDs":
-                document.getElementById("game-rush-td-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-rush-td-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "firstDowns":
-                document.getElementById("game-first-downs-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-first-downs-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "thirdDownEff":
-                document.getElementById("game-third-down-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-third-down-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "fourthDownEff":
-                document.getElementById("game-fourth-down-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-fourth-down-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "tackles":
-                document.getElementById("game-tackles-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-tackles-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "sacks":
-                document.getElementById("game-sacks-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-sacks-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "turnovers":
-                document.getElementById("game-tos-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-tos-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "totalPenaltiesYards":
-                document.getElementById("game-penalty-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-penalty-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             case "possessionTime":
-                document.getElementById("game-possession-away").textContent = game.teams[1].stats[i].stat;
+                document.getElementById("game-possession-away").textContent = game.teams[away_team].stats[i].stat;
                 break;
             default:
                 break;
