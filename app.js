@@ -15,8 +15,8 @@ let conferenceStrings = {
 }
 
 //This is nasty, but better than doing a conf lookup and search to get to the team logo link
-//Even better the fact that the API in use does not have correct color values for many teams
-//Sourced color codes from https://teamcolorcodes.com/ncaa-color-codes/
+//Even better in fact since the API in use does not have correct color values for many teams
+//Manually Sourced color codes from https://teamcolorcodes.com/ncaa-color-codes/
 const logoLookups = {
             //School : [ID, Primary Color, Secondary Color]
             "Alabama" : [333, "#9e1b32", "#828a8f"],
@@ -80,10 +80,10 @@ const logoLookups = {
             "Minnesota" : [135, "#7a0019", "#ffcc33"],
             "Nebraska" : [158, "#e41c38", "#ffffff"],
             "Northwestern" : [77, "#4e2a84", "#ffffff"],
-            "Ohio State" : [194, "#bb0000", "#666666"],
+            "Ohio State" : [194, "#bb0000", "#cccccc"],
             "Penn State" : [213, "#041e42", "#ffffff"],
             "Purdue" : [2509, "#ceb888", "#373a36"],
-            "Rutgers" : [164, "#cc0033", "#5f6a72"],
+            "Rutgers" : [164, "#cc0033", "#2f3a42"],
             "Wisconsin" : [275, "#c5050c", "#ffffff"],
             "Air Force" : [2005, "#003087", "#b1b3b3"],
             "Boise State" : [68, "#0033a0", "#d64309"],
@@ -130,7 +130,7 @@ const logoLookups = {
             "Georgia State" : [2247, "#0039a6", "#c60c30"],
             "Louisiana" : [309, "#ce181e", "000000"],
             "Louisiana Monroe" : [2433, "#800029", "#bd955a"],
-            "South Alabama" : [6, "#00205b", "#bf0de3"],
+            "South Alabama" : [6, "#00205b", "#bf0d3e"],
             "Texas State" : [326, "#501214", "#8d734a"],
             "Troy" : [2653, "#8a2432", "#b3b5b8"],
             "Army" : [349, "#d4bf91", "#000000"],
@@ -280,12 +280,23 @@ function resetPage() {
     document.getElementById("conferences-container").style.display = "block"; //Showing Conferences
 }
 
+function showSpinner(bool) {
+    if(bool) {
+        document.getElementById("spin-container").classList.remove("d-none");
+        document.getElementById("spin-container").classList.add("d-flex");
+    } else {
+        document.getElementById("spin-container").classList.remove("d-flex");
+        document.getElementById("spin-container").classList.add("d-none");
+    }
+}
+
 async function getData(localurl) {
     return response = await axios.get(localurl)
 }
 
 async function populateTeams(conferenceToDisplay){
     //teams = [];
+    showSpinner(true);
     teamNameLookup = {};
     //This function will hide (none) the conferences page and display the teams in a conference
     var URL = baseURL + "teams?conference=" + conferenceToDisplay;
@@ -332,6 +343,7 @@ async function populateTeams(conferenceToDisplay){
     }
     console.log(teams);
     console.log(teams.length);
+    showSpinner(false);
 }
 
 //populateTeams("aac");
@@ -346,6 +358,7 @@ async function showTeamData(teamToShow) {
         //This data is already showing, lets not fetch it again
         return;
     }
+    showSpinner(true);
     document.getElementById("games-column").textContent = ''; //TODid propagate this clearing method to other areas instead of innerHTML. stackoverflow.com/questions/3955229 says is faster.
     for (let el of document.querySelectorAll('.season-data')) el.style.visibility = 'hidden'; //Hide stats for when already filled stackoverflow.com/questions/18414384
     console.log(teamToShow);
@@ -374,6 +387,7 @@ async function showTeamData(teamToShow) {
     fillSeasonTable();
     for (let el of document.querySelectorAll('.season-data')) el.style.visibility = ''; //unhide stats
     fillGamesList(teamToShow); 
+    showSpinner(false);
 }
 
 function fillGamesList(school) {
@@ -554,7 +568,24 @@ async function showGameData(gameID) {
     //gameID = "401114194"; //TODO Remove placeholder
     document.getElementById("single-team-container").style.display = "none"; //Showing Conferences
     document.getElementById("game-container").style.display = "block"; //Unhiding teams page
+    if(gameID == document.getElementById("game-container").getAttribute("data-id")) {
+        return
+    }
+    document.getElementById("game-container").setAttribute("data-id", gameID);
+    showSpinner(true);
     for (let el of document.querySelectorAll('.game-data')) el.style.visibility = 'hidden'; //Hide stats for when already filled stackoverflow.com/questions/18414384
+    //Moved up from below the await, hides older cards faster
+    let homeCard = document.getElementById("home-card"); 
+    let awayCard = document.getElementById("away-card");
+    homeCard.textContent = ''; //Clearing out the content
+    awayCard.textContent = '';
+    //Moved up from below the await, hiding scores by setting them white
+    let gsh = document.getElementById("game-score-home")
+    let gsa = document.getElementById("game-score-away")
+    gsh.style.backgroundColor = "white";
+    gsh.style.color = "white";
+    gsa.style.backgroundColor = "white";
+    gsa.style.color = "white";
     let year = "2019";
     let gameURL1 = baseURL + 'games/teams?year=' + year + '&gameId=' + gameID;
     let gameURL2 = baseURL + 'games?year=' + year + '&id=' + gameID;
@@ -573,16 +604,8 @@ async function showGameData(gameID) {
     let homeLogo, awayLogo;
     let fbsHome = true;
     let fbsAway = true;
-    //games.push(game)
-    //games.push(gameBasic)
-    //document.getElementById("game-home-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`;
-    //document.getElementById("game-away-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
 
     //Building the Team Header Cards. So that event listners don't keep happening
-    let homeCard = document.getElementById("home-card"); 
-    let awayCard = document.getElementById("away-card");
-    homeCard.textContent = ''; //Clearing out the content
-    awayCard.textContent = '';
     let homeLink = document.createElement("a"); //Our main insert
     homeLink.classList.add("btn-fix", "text-center"); //Adding basic class, adding button if FBS
     homeLink.id = "game-home-team";
@@ -614,7 +637,7 @@ async function showGameData(gameID) {
     homeCard.appendChild(homeLink);
 
     let awayLink = document.createElement("a");
-    awayLink.classList.add("btn", "btn-fix", "text-center"); //TODO add href if FBS
+    awayLink.classList.add("btn-fix", "text-center"); //TODO add href if FBS
     awayLink.id = "game-away-team";
     let awayImg = document.createElement("img");
     awayImg.id = "game-away-img";
@@ -623,7 +646,7 @@ async function showGameData(gameID) {
     if (logoLookups[gameBasic.away_team] !== undefined) {
         awayLink.addEventListener("click", function awayClick() {showTeamData(gameBasic.away_team)} );
         awayLink.setAttribute("href", "#")
-        awayLink.classList.add("btn"); //TODO add href if FBS
+        awayLink.classList.add("btn");
     }
     let awayTitle1 = document.createElement("div");
     awayTitle1.classList.add("card-block");
@@ -657,29 +680,31 @@ async function showGameData(gameID) {
         document.getElementById("game-away-team").classList.remove("btn");
         document.getElementById("game-away-team").removeAttribute("href");
     }
-    */
     let gsh = document.getElementById("game-score-home")
     let gsa = document.getElementById("game-score-away")
+    */
     gsh.textContent = gameBasic.home_points;
     try {
-        gsh.style.backgroundColor = addHue(logoLookups[gameBasic.home_team][1], 0.5);
+        gsh.style.backgroundColor = addHue(logoLookups[gameBasic.home_team][1], 1);
         gsh.style.color = logoLookups[gameBasic.home_team][2];
     } catch(e) {
-        gsh.style.backgroundColor = "rgba(200, 200, 200, 0.5)";
+        //The try failed because a team is FCS, setting generic colors
+        gsh.style.backgroundColor = "rgba(200, 200, 200, 0.7)";
         gsh.style.color = "black";
     }
     gsa.textContent = gameBasic.away_points;
     try {
-        gsa.style.backgroundColor = addHue(logoLookups[gameBasic.away_team][1], 0.5);
+        gsa.style.backgroundColor = addHue(logoLookups[gameBasic.away_team][1], 1);
         gsa.style.color = logoLookups[gameBasic.away_team][2];
     } catch(e) {
-        gsa.style.backgroundColor = "rgba(200, 200, 200, 0.5)";
+        gsa.style.backgroundColor = "rgba(200, 200, 200, 0.7)";
         gsa.style.color = "black";
     }
     document.getElementById("game-date").textContent = `${gameBasic.start_date.slice(5,7)}/${gameBasic.start_date.slice(8,10)}/${gameBasic.start_date.slice(2,4)}`
 
     fillGameData(game);
     for (let el of document.querySelectorAll('.game-data')) el.style.visibility = ''; //unhide stats
+    showSpinner(false);
 }
 
 function fillGameData(game) {
