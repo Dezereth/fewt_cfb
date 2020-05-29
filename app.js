@@ -573,21 +573,89 @@ async function showGameData(gameID) {
     let fbsAway = true;
     //games.push(game)
     //games.push(gameBasic)
-    document.getElementById("game-home-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`;
-    document.getElementById("game-away-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
- 
+    //document.getElementById("game-home-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`;
+    //document.getElementById("game-away-img").src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
+
+    //Building the Team Header Cards. So that event listners don't keep happening
+    let homeCard = document.getElementById("home-card"); 
+    let awayCard = document.getElementById("away-card");
+    homeCard.textContent = ''; //Clearing out the content
+    awayCard.textContent = '';
+    let homeLink = document.createElement("a"); //Our main insert
+    homeLink.classList.add("btn-fix", "text-center"); //Adding basic class, adding button if FBS
+    homeLink.id = "game-home-team";
+    let homeImg = document.createElement("img"); //Our image element
+    homeImg.id = "game-away-img";
+    homeImg.classList.add("card-img-top", "img-responsive");
+    homeImg.src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`; //Linking to team logo
     if (logoLookups[gameBasic.home_team] !== undefined) {
-        document.getElementById("game-home-team").addEventListener("click", function() {showTeamData(gameBasic.home_team)} );
+        //Checking if FBS, so we can link to a season
+        homeLink.addEventListener("click", function homeClick() {showTeamData(gameBasic.home_team)} );
+        homeLink.setAttribute("href", "#")
+        homeLink.classList.add("btn");
+    }
+    let homeTitle1 = document.createElement("div"); //Card top title
+    homeTitle1.classList.add("card-block");
+    let homeName1 = document.createElement("h4");
+    homeName1.classList.add("card-title", "m-0");
+    homeName1.textContent = "HOME";
+    homeTitle1.appendChild(homeName1);
+    let homeTitle2 = document.createElement("div"); //Card bottom title
+    homeTitle2.classList.add("card-block");
+    let homeName2 = document.createElement("h4");
+    homeName2.classList.add("card-title", "m-0");
+    homeName2.textContent = `${gameBasic.home_team}`;
+    homeTitle2.appendChild(homeName2);
+    homeLink.appendChild(homeTitle1);
+    homeLink.appendChild(homeImg);
+    homeLink.appendChild(homeTitle2);
+    homeCard.appendChild(homeLink);
+
+    let awayLink = document.createElement("a");
+    awayLink.classList.add("btn", "btn-fix", "text-center"); //TODO add href if FBS
+    awayLink.id = "game-away-team";
+    let awayImg = document.createElement("img");
+    awayImg.id = "game-away-img";
+    awayImg.classList.add("card-img-top", "img-responsive");
+    awayImg.src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
+    if (logoLookups[gameBasic.away_team] !== undefined) {
+        awayLink.addEventListener("click", function awayClick() {showTeamData(gameBasic.away_team)} );
+        awayLink.setAttribute("href", "#")
+        awayLink.classList.add("btn"); //TODO add href if FBS
+    }
+    let awayTitle1 = document.createElement("div");
+    awayTitle1.classList.add("card-block");
+    let awayName1 = document.createElement("h4");
+    awayName1.classList.add("card-title", "m-0");
+    awayName1.textContent = "AWAY";
+    awayTitle1.appendChild(awayName1);
+    let awayTitle2 = document.createElement("div");
+    awayTitle2.classList.add("card-block");
+    let awayName2 = document.createElement("h4");
+    awayName2.classList.add("card-title", "m-0");
+    awayName2.textContent = `${gameBasic.away_team}`;
+    awayTitle2.appendChild(awayName2);
+    awayLink.appendChild(awayTitle1);
+    awayLink.appendChild(awayImg);
+    awayLink.appendChild(awayTitle2);
+    awayCard.appendChild(awayLink);
+
+ 
+    /*
+    if (logoLookups[gameBasic.home_team] !== undefined) {
+        document.getElementById("game-home-team").addEventListener("click", function homeClick() {showTeamData(gameBasic.home_team)} );
+        //document.getElementById("game-home-team").addEventListener("click", function() {} );
     } else {
         document.getElementById("game-home-team").classList.remove("btn");
         document.getElementById("game-home-team").removeAttribute("href");
     }
     if (logoLookups[gameBasic.away_team] !== undefined) {
-        document.getElementById("game-away-team").addEventListener("click", function() {showTeamData(gameBasic.away_team)} );
+        document.getElementById("game-away-team").addEventListener("click", function awayClick() {showTeamData(gameBasic.away_team)} );
     } else {
         document.getElementById("game-away-team").classList.remove("btn");
         document.getElementById("game-away-team").removeAttribute("href");
     }
+    */
     let gsh = document.getElementById("game-score-home")
     let gsa = document.getElementById("game-score-away")
     gsh.textContent = gameBasic.home_points;
