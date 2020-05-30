@@ -6,14 +6,6 @@ const fcsLogo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500
 
 var myChart; //Global declaration so it can be destroyed before writing a new one.
 
-let conferenceStrings = {
-    acc: "acc",
-    b12: "b12",
-    b1g: "b1g",
-    sec: "sec",
-    pac: "pac"
-}
-
 //This is nasty, but better than doing a conf lookup and search to get to the team logo link
 //Even better in fact since the API in use does not have correct color values for many teams
 //Manually Sourced color codes from https://teamcolorcodes.com/ncaa-color-codes/

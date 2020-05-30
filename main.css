@@ -17,6 +17,19 @@ body {
     font-size: 2.5vw;
 }
 
+#home-nav {
+    /*Color for NCAA D1, ref: https://en.wikipedia.org/wiki/Module:College_color*/
+    background-color: #005eb8;
+}
+
+#home {
+    color: white;
+}
+
+#home:hover {
+    color: #d5e5d5;
+}
+
 #conferences-container {
     //display: none;
 }
