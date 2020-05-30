@@ -19,7 +19,7 @@
         </div>
     </div>
     <nav class="navbar nav-fill fixed-top justify-content-center bg-dark">
-        <div class="nav-item">
+        <div class="nav-item m-0 font-weight-bolder h2">
             <a class="nav-link" href="#!" onclick="resetPage()" id="home">CFB Stats</a>
         </div>
     </nav> 
@@ -498,14 +498,14 @@
     <!-- Modal -->
     <div class="modal " id="modalCanvas" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center" id="modal-header">
+            <div class="modal-content" id="modal-content">
+                <div class="modal-header border-0 justify-content-center font-weight-bolder h4 py-1 my-0" id="modal-header">
                 </div>
-                <div class="modal-body">
-                    <canvas id="statsCanvas">
+                <div class="modal-body py-2" id="modal-body">
+                    <canvas id="statsCanvas" class="pt-2 px-1">
                     </canvas>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer py-1 border-0" id="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>  

@@ -1,5 +1,5 @@
 body {
-    padding-top: 70px;
+    padding-top: 75px;
 }
 
 .clickable-row {
@@ -45,3 +45,46 @@ body {
 .game-card {
     border: none;
 }
+
+.chartjs-render-monitor {
+    background-color: white;
+}
+
+.modal-content {
+    background-color: white;
+}
+
+/* Media query specififications pulled from bootstrap docs */
+@media (max-width: 575.98px) { 
+    .score-row {
+        font-size: 3rem;
+    }
+ }
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { 
+    .score-row {
+        font-size: 2.5rem;
+    }
+ }
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+    .score-row {
+        font-size: 1.25rem;
+    }
+ }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+    .score-row {
+        font-size: 1.5rem;
+    }
+ }
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+    .score-row {
+        font-size: 2rem;
+    }
+ }

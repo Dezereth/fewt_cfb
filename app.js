@@ -70,7 +70,7 @@ const logoLookups = {
             "Temple" : [218, "#9d2235", "#c1c6c8"],
             "Tulane" : [2655, "#006757", "#418fde"],
             "Tulsa" : [202, "#002d72", "#c8102e"],
-            "UCF" : [2116, "#ba9b37", "#ffc904"],
+            "UCF" : [2116, "#ba9b37", "#101010"],
             "Illinois" : [356, "#13294b", "#e84a27"],
             "Indiana" : [84, "#990000", "#eeedeb"],
             "Iowa" : [2294, "#ffcd00", "#000000"],
@@ -161,6 +161,7 @@ class teamStats {
         this.numGames = 0;
         this.school = school;
         this.record = [0, 0];       //[W, L]
+        this.confRecord = [0, 0]    //Conference W-L
         this.location = [];         //For storing home (1) or away (0)
         this.opponent = [];         //Storing 'School' names for logo lookup
         this.gameID = [];
@@ -196,8 +197,10 @@ class teamStats {
         this.pointsAllowed[gameIndex] = (game.teams[def].points);
         if (this.pointsScored[gameIndex] > this.pointsAllowed[gameIndex]){
             this.record[0]++;
+            if(game.teams[off].conference === game.teams[def].conference) { this.confRecord[0]++;}
         } else {
             this.record[1]++;
+            if(game.teams[off].conference === game.teams[def].conference) { this.confRecord[1]++;}
         }
         for(let i = 0; i < game.teams[off].stats.length; i++) {
             //Going through all the elements of the json object. There is more data than what I'm using.
@@ -364,13 +367,14 @@ async function showTeamData(teamToShow) {
     console.log(teamToShow);
     //Takes a team.school string from the team object
     let year = "2019";
-    let teamURLname = teamToShow.replace(/ /g, "%20"); //convert spaces to URL spaces
+    let teamURLname = teamToShow.replace(/ /g, "%20").replace(/&/g, "%26"); //convert spaces to URL spaces, and & to URL ampersand for Tx A&M
 
     let gamesURL = baseURL + "games/teams?year=" + year + "&team=" + teamURLname + "&week=";
     //If the week is not included, then the game data is not organized in any coherent way
 
     ts = new teamStats(teamToShow) 
-    document.getElementById("single-team-container").style.backgroundColor = logoLookups[ts.school][2];
+    //Set the background color to the secondary color, but if secondary color is white, grey it up for a little contrast with the white body background
+    document.getElementById("single-team-container").style.backgroundColor = (logoLookups[ts.school][2] === "#ffffff") ? "#fcfcfc" : logoLookups[ts.school][2];
     let tn = document.getElementById("team-name");
     tn.textContent = `${ts.school}`;
     tn.style.backgroundColor = logoLookups[ts.school][1];
@@ -398,17 +402,17 @@ async function showTeamData(teamToShow) {
 function fillGamesList(school) {
     let gamesCol = document.getElementById("games-column");
     let record = document.createElement("div");
-    record.classList.add("row", "bg-white", "font-weight-bold", "rounded-top", "py-md-1")
+    record.classList.add("row", "bg-white", "font-weight-bold", "border", "rounded-top", "py-md-1")
     let recordCol = document.createElement("div");
     recordCol.classList.add("col-12", "text-center", "h2")
     recordCol.id = "team-record";
-    recordCol.textContent = `${ts.record[0]} - ${ts.record[1]}`;
+    recordCol.textContent = `${ts.record[0]}-${ts.record[1]} (${ts.confRecord[0]}-${ts.confRecord[1]})`;
     record.appendChild(recordCol);
     //record.innerHTML = `<div class="col-12 text-center" id="team-record"></div>`
     let homeAway = document.createElement("div");
-    homeAway.classList.add("row", "border", "bg-white", "py-md-1", "py-lg-2")
+    homeAway.classList.add("row", "border", "bg-white", "py-md-1", "py-lg-2");
     homeAway.innerHTML = `<div class="col-6 text-left font-weight-bold" id="home">Home</div>
-                    <div class="col-6 text-right font-weight-bold" id="away">Away</div>`
+                    <div class="col-6 text-right font-weight-bold" id="away">Away</div>`;
     gamesCol.appendChild(record);
     gamesCol.appendChild(homeAway);
     //document.getElementById("team-record").textContent = `Record: ${ts.record[0]} - ${ts.record[1]}`;
@@ -427,7 +431,7 @@ function fillGamesList(school) {
         let team1 = document.createElement("img");
         let team2 = document.createElement("img");
         let score = document.createElement("u");
-        score.classList.add("clickable-row", "col-6", "text-center", "align-self-center", "font-weight-bold",(((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"),);
+        score.classList.add("score-row", "clickable-row", "col-6", "text-center", "align-self-center", "font-weight-bold",(((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"),);
         score.textContent = `${ts.location[i] ? ts.pointsScored[i] : ts.pointsAllowed[i]}-${ts.location[i] ? ts.pointsAllowed[i] : ts.pointsScored[i]}`;
         score.addEventListener("click", function() {showGameData(ts.gameID[i])})
         team1.classList.add("col-3", "img-responsive")
@@ -450,6 +454,9 @@ function fillGamesList(school) {
         game.appendChild(team1);
         game.appendChild(score);
         game.appendChild(team2);
+        if(i === ts.numGames-1) {
+            game.classList.add("rounded-bottom")
+        }
         gamesCol.appendChild(game);
 
     }
@@ -532,8 +539,8 @@ function buildChart(dataType) {
     for(let i = 0; i < ts.numGames; i++) {
         if (logoLookups[ts.opponent[i]] === undefined) {
             //No data for FCS colors, using teams' secondary color
-            opponentBackgroundColors.push(addHue(secondaryColor, 0.8));
-            opponentBorderColors.push(addHue(secondaryColor, 1));
+            opponentBackgroundColors.push("rgba(200, 200, 200, 0.7)");
+            opponentBorderColors.push("#000000");
         } else {
             opponentBackgroundColors.push(addHue(logoLookups[ts.opponent[i]][1], 0.6));
             opponentBorderColors.push(addHue(logoLookups[ts.opponent[i]][1], 1));
@@ -542,7 +549,15 @@ function buildChart(dataType) {
     if(myChart !== undefined) {
         myChart.destroy(); //Clearing past charts
     }
-    document.getElementById("modal-header").textContent = document.getElementById(`${dataType}-title`).innerText;
+    let mh = document.getElementById("modal-header");
+    let mb = document.getElementById("modal-body");
+    let mf = document.getElementById("modal-footer");
+    let tt = document.getElementById("team-name");
+    mh.textContent = document.getElementById(`${dataType}-title`).innerText;
+    mh.style.color = tt.style.backgroundColor;
+    mh.style.backgroundColor = document.getElementById("single-team-container").style.backgroundColor.replace(')', ', 0.55)').replace('rgb', 'rgba');
+    mb.style.backgroundColor = document.getElementById("single-team-container").style.backgroundColor.replace(')', ', 0.55)').replace('rgb', 'rgba');
+    mf.style.backgroundColor = document.getElementById("single-team-container").style.backgroundColor.replace(')', ', 0.55)').replace('rgb', 'rgba');
     myChart = new Chart(document.getElementById("statsCanvas"), {
     type: 'bar',
     data: {
@@ -576,8 +591,8 @@ function buildChart(dataType) {
 
 async function showGameData(gameID) {
     //gameID = "401114194"; //TODO Remove placeholder
-    document.getElementById("single-team-container").style.display = "none"; //Showing Conferences
-    document.getElementById("game-container").style.display = "block"; //Unhiding teams page
+    document.getElementById("single-team-container").style.display = "none"; //Hide the single team page
+    document.getElementById("game-container").style.display = "block"; //Unhiding game page
     if(gameID == document.getElementById("game-container").getAttribute("data-id")) {
         return
     }
