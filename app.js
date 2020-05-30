@@ -108,7 +108,7 @@ const logoLookups = {
             "Bowling Green" : [189, "#4f2c1d", "#fe5000"],
             "Buffalo" : [2084, "#005bbb", "#ffffff"],
             "Central Michigan" : [2117, "#6a0032", "#ffc82e"],
-            "Eastern Michigan" : [2199, "#0066ee", "#000000"],
+            "Eastern Michigan" : [2199, "#006633", "#000000"],
             "Kent State" : [2309, "#002664", "#eaab00"],
             "Miami (OH)" : [193, "#b61e2e", "#000000"],
             "Northern Illinois" : [2459, "#ba0c2f", "#8a8d8f"],
@@ -638,10 +638,6 @@ async function showGameData(gameID) {
     }
     let homeTitle1 = document.createElement("div"); //Card top title
     homeTitle1.classList.add("card-block");
-    let homeName1 = document.createElement("h4");
-    homeName1.classList.add("card-title", "m-0");
-    homeName1.textContent = "HOME";
-    homeTitle1.appendChild(homeName1);
     let homeTitle2 = document.createElement("div"); //Card bottom title
     homeTitle2.classList.add("card-block");
     let homeName2 = document.createElement("h4");
@@ -667,10 +663,6 @@ async function showGameData(gameID) {
     }
     let awayTitle1 = document.createElement("div");
     awayTitle1.classList.add("card-block");
-    let awayName1 = document.createElement("h4");
-    awayName1.classList.add("card-title", "m-0");
-    awayName1.textContent = "AWAY";
-    awayTitle1.appendChild(awayName1);
     let awayTitle2 = document.createElement("div");
     awayTitle2.classList.add("card-block");
     let awayName2 = document.createElement("h4");

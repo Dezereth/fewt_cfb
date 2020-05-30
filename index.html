@@ -309,30 +309,33 @@
         </div>
     </div>
     <div class="container mx-auto" id="game-container" data-id="">
-        <div class="row" id="game-row1">
-            <div class="card col-3 p-0 game-card" id="home-card">
+        <div class="row border" id="game-row1">
+            <div class="card col-3 p-0 rounded-0" id="home-card">
                 <a href="#" class="btn btn-fix text-center" id="game-home-team" >
                     <img class="card-img-top img-responsive" id="game-home-img">
-                    <div class="card-block">
-                        <h4 class=card-title">HOME</h4>
-                    </div>
                 </a>
             </div>
-            <div class="col-2 justify-content-center my-auto">
-                <div class="text-center game-page-scores rounded-circle" id="game-score-home"></div>
+            <div class="col-6 my-auto">
+                <div class="row mt-3">
+                    <div class="col-4 justify-content-center my-auto">
+                        <div class="text-center game-page-scores rounded-circle" id="game-score-home"></div>
+                    </div>
+                    <div class="col-4 justify-content-center my-auto">
+                        <div class="text-center game-page-date" id="game-date"></div>
+                    </div>
+                    <div class="col-4 justify-content-center my-auto">
+                        <div class="text-center game-page-scores rounded-circle" id="game-score-away"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center col-4 h4 mt-2 mb-0">HOME</div>
+                    <div class="col-4"></div>
+                    <div class="text-center col-4 h4 mt-2 mb-0">AWAY</div>
+                </div>
             </div>
-            <div class="col-2 justify-content-center my-auto">
-                <div class="text-center game-page-date" id="game-date"></div>
-            </div>
-            <div class="col-2 justify-content-center my-auto">
-                <div class="text-center game-page-scores rounded-circle" id="game-score-away"></div>
-            </div>
-            <div class="card col-3 p-0 game-card" id="away-card">
+            <div class="card col-3 p-0 rounded-0" id="away-card">
                 <a href="#" class="btn btn-fix text-center" id="game-away-team" >
                     <img class="card-img-top img-responsive" id="game-away-img" >
-                    <div class="card-block">
-                        <h4 class=card-title">AWAY</h4>
-                    </div>
                 </a>
             </div>
         </div>

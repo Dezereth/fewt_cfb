@@ -55,10 +55,6 @@ body {
     z-index: 1000;
 }
 
-.game-card {
-    border: none;
-}
-
 .chartjs-render-monitor {
     background-color: white;
 }
