@@ -22,11 +22,11 @@ body {
     background-color: #005eb8;
 }
 
-#home {
+#home-nav-link {
     color: white;
 }
 
-#home:hover {
+#home-nav-link:hover {
     color: #d5e5d5;
 }
 
