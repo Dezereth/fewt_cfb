@@ -19,7 +19,7 @@ let conferenceStrings = {
 //Manually Sourced color codes from https://teamcolorcodes.com/ncaa-color-codes/
 const logoLookups = {
             //School : [ID, Primary Color, Secondary Color]
-            "Alabama" : [333, "#9e1b32", "#828a8f"],
+            "Alabama" : [333, "#9e1b32", "#b2babf"],
             "Arkansas" : [8, "#9d2235", "#ffffff"],
             "Auburn" : [2, "#0c2340", "#e87722"],
             "Florida" : [57, "#0021A5", "#fa4616"],
@@ -370,7 +370,12 @@ async function showTeamData(teamToShow) {
     //If the week is not included, then the game data is not organized in any coherent way
 
     ts = new teamStats(teamToShow) 
-    document.getElementById("team-name").textContent = `${ts.school}`;
+    document.getElementById("single-team-container").style.backgroundColor = logoLookups[ts.school][2];
+    let tn = document.getElementById("team-name");
+    tn.textContent = `${ts.school}`;
+    tn.style.backgroundColor = logoLookups[ts.school][1];
+    tn.style.color = logoLookups[ts.school][2];
+
     for (let i = 0; i < 16; i++){
         //Getting data for all 16 weeks of games, including week 0
         await getData(gamesURL + i)
@@ -393,19 +398,24 @@ async function showTeamData(teamToShow) {
 function fillGamesList(school) {
     let gamesCol = document.getElementById("games-column");
     let record = document.createElement("div");
-    record.classList.add("row", "border")
-    record.innerHTML = `<div class="col-12 text-center" id="team-record"></div>`
+    record.classList.add("row", "bg-white", "font-weight-bold", "rounded-top", "py-md-1")
+    let recordCol = document.createElement("div");
+    recordCol.classList.add("col-12", "text-center", "h2")
+    recordCol.id = "team-record";
+    recordCol.textContent = `${ts.record[0]} - ${ts.record[1]}`;
+    record.appendChild(recordCol);
+    //record.innerHTML = `<div class="col-12 text-center" id="team-record"></div>`
     let homeAway = document.createElement("div");
-    homeAway.classList.add("row", "border")
-    homeAway.innerHTML = `<div class="col-6 text-left" id="home">Home</div>
-                    <div class="col-6 text-right" id="away">Away</div>`
+    homeAway.classList.add("row", "border", "bg-white", "py-md-1", "py-lg-2")
+    homeAway.innerHTML = `<div class="col-6 text-left font-weight-bold" id="home">Home</div>
+                    <div class="col-6 text-right font-weight-bold" id="away">Away</div>`
     gamesCol.appendChild(record);
     gamesCol.appendChild(homeAway);
-    document.getElementById("team-record").textContent = `Record: ${ts.record[0]} - ${ts.record[1]}`;
+    //document.getElementById("team-record").textContent = `Record: ${ts.record[0]} - ${ts.record[1]}`;
     let teamLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[school][0]}.png`;
     for(let i = 0; i < ts.numGames; i++){
         let game = document.createElement("div");
-        game.classList.add("row", "border");
+        game.classList.add("row", "border", "bg-white", "py-md-1");
         let oppLogo;
         let fbs = true;
         if (logoLookups[ts.opponent[i]] === undefined) {

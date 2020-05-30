@@ -12,7 +12,7 @@
     />
     <link rel="stylesheet" href="main.css" />
 </head>
-<body>
+<body id="body">
     <div id="spin-container" class=" d-none text-center my-auto justify-content-center">
         <div class="spinner-border text-primary my-auto" style="width: 4rem; height: 4rem;" role="status">
             <span class="sr-only"></span>
@@ -23,7 +23,7 @@
             <a class="nav-link" href="#!" onclick="resetPage()" id="home">CFB Stats</a>
         </div>
     </nav> 
-    <div class="container" id="conferences-container" >
+    <div class="container rounded" id="conferences-container" >
         <div class="row justify-content-center m-2" id="conferences-row1">
             <div class="card-deck col-lg-12" id="conferences-deck1">
                 <div class="card" id="pac-card">
@@ -121,13 +121,13 @@
             </div>
         </div>
     </div>
-    <div class="container mx-auto" id="teams-container" >
+    <div class="container mx-auto rounded" id="teams-container" >
     </div>
-    <div class="container mx-auto" id="single-team-container" >
-        <h2 class="text-center border rounded mt-2 mb-4" id="team-name"></h2>
-        <div class="row">
-            <div class="col-md-8 border" id="stats-view">
-                <table class="table table-bordered table-hover table-sm" id="stats-table">
+    <div class="container align-center rounded" id="single-team-container" >
+        <h2 class="row text-center rounded-top justify-content-center mt-2 mb-2 py-2 font-weight-bold" id="team-name"></h2>
+        <div class="row mx-auto">
+            <div class="col-md-8 pl-md-0 " id="stats-view">
+                <table class="table table-bordered table-hover table-sm bg-white" id="stats-table">
                     <thead id="offensive-data-head">
                         <tr>
                             <th>
@@ -304,13 +304,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-4 border" id="games-column">
+            <div class="col-md-4 " id="games-column">
             </div>
         </div>
     </div>
     <div class="container mx-auto" id="game-container" data-id="">
         <div class="row" id="game-row1">
-            <div class="card col-3 p-0" id="home-card">
+            <div class="card col-3 p-0 game-card" id="home-card">
                 <a href="#" class="btn btn-fix text-center" id="game-home-team" >
                     <img class="card-img-top img-responsive" id="game-home-img">
                     <div class="card-block">
@@ -327,7 +327,7 @@
             <div class="col-2 justify-content-center my-auto">
                 <div class="text-center game-page-scores rounded-circle" id="game-score-away"></div>
             </div>
-            <div class="card col-3 p-0" id="away-card">
+            <div class="card col-3 p-0 game-card" id="away-card">
                 <a href="#" class="btn btn-fix text-center" id="game-away-team" >
                     <img class="card-img-top img-responsive" id="game-away-img" >
                     <div class="card-block">
