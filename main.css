@@ -68,6 +68,14 @@ body {
     .score-row {
         font-size: 3rem;
     }
+
+    .font-shrink {
+        font-size: smaller;
+    }
+
+    #game-date {
+        font-size: medium;
+    }
  }
 
 /* Small devices (landscape phones, 576px and up) */

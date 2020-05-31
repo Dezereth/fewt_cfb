@@ -328,10 +328,10 @@ async function populateTeams(conferenceToDisplay){
         team.classList.add("card");
         team.setAttribute("id", `${teams[i].alt_name2}-card`);
         //img = teams[i].logos[0] + imgSize;
-        team.innerHTML = `<a href="#" class="btn btn-fix text-center" id="${teams[i].alt_name2}" onclick="showTeamData('${teams[i].school}')">
+        team.innerHTML = `<a href="#" class="btn btn-fix text-center" id="${teams[i].alt_name2}" onclick="showTeamData('${teams[i].school.replace(/'/g, "\\'")}')">
                             <img class=card-img-top img-responsive" id="${teams[i].alt_name2}-img" src="${teams[i].logos[0]}" >
                             <div class="card-block">
-                                <h4 class=card-title">${teams[i].school}</h4>
+                                <div class="h4 card-title">${teams[i].school}</div>
                             </div>
                         </a>`
         deck.appendChild(team);
@@ -618,9 +618,6 @@ async function showGameData(gameID) {
     });
     console.log(game);
     console.log(gameBasic)
-    let homeLogo, awayLogo;
-    let fbsHome = true;
-    let fbsAway = true;
 
     //Building the Team Header Cards. So that event listners don't keep happening
     let homeLink = document.createElement("a"); //Our main insert
@@ -640,8 +637,8 @@ async function showGameData(gameID) {
     homeTitle1.classList.add("card-block");
     let homeTitle2 = document.createElement("div"); //Card bottom title
     homeTitle2.classList.add("card-block");
-    let homeName2 = document.createElement("h4");
-    homeName2.classList.add("card-title", "m-0");
+    let homeName2 = document.createElement("div");
+    homeName2.classList.add("card-title", "m-0", "h4", "font-shrink");
     homeName2.textContent = `${gameBasic.home_team}`;
     homeTitle2.appendChild(homeName2);
     homeLink.appendChild(homeTitle1);
@@ -665,8 +662,8 @@ async function showGameData(gameID) {
     awayTitle1.classList.add("card-block");
     let awayTitle2 = document.createElement("div");
     awayTitle2.classList.add("card-block");
-    let awayName2 = document.createElement("h4");
-    awayName2.classList.add("card-title", "m-0");
+    let awayName2 = document.createElement("div");
+    awayName2.classList.add("card-title", "m-0", "h4", "font-shrink");
     awayName2.textContent = `${gameBasic.away_team}`;
     awayTitle2.appendChild(awayName2);
     awayLink.appendChild(awayTitle1);
@@ -674,24 +671,6 @@ async function showGameData(gameID) {
     awayLink.appendChild(awayTitle2);
     awayCard.appendChild(awayLink);
 
- 
-    /*
-    if (logoLookups[gameBasic.home_team] !== undefined) {
-        document.getElementById("game-home-team").addEventListener("click", function homeClick() {showTeamData(gameBasic.home_team)} );
-        //document.getElementById("game-home-team").addEventListener("click", function() {} );
-    } else {
-        document.getElementById("game-home-team").classList.remove("btn");
-        document.getElementById("game-home-team").removeAttribute("href");
-    }
-    if (logoLookups[gameBasic.away_team] !== undefined) {
-        document.getElementById("game-away-team").addEventListener("click", function awayClick() {showTeamData(gameBasic.away_team)} );
-    } else {
-        document.getElementById("game-away-team").classList.remove("btn");
-        document.getElementById("game-away-team").removeAttribute("href");
-    }
-    let gsh = document.getElementById("game-score-home")
-    let gsa = document.getElementById("game-score-away")
-    */
     gsh.textContent = gameBasic.home_points;
     try {
         gsh.style.backgroundColor = addHue(logoLookups[gameBasic.home_team][1], 1);

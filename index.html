@@ -20,7 +20,7 @@
     </div>
     <nav class="navbar nav-fill fixed-top justify-content-center" id="home-nav">
         <div class="nav-item m-0 font-weight-bolder h2">
-            <a class="nav-link" href="#!" onclick="resetPage()" id="home">CFB Stats</a>
+            <a class="nav-link" href="#!" onclick="resetPage()" id="home-nav-link">CFB Stats</a>
         </div>
     </nav> 
     <div class="container rounded" id="conferences-container" >
@@ -30,7 +30,7 @@
                     <a href="#" class="btn btn-fix text-center" id="pac" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="pac-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/9.png" >
                         <div class="card-block">
-                            <h4 class=card-title">PAC-12</h4>
+                            <div class="card-title h4">PAC-12</div>
                         </div>
                     </a>
                 </div>
@@ -38,7 +38,7 @@
                     <a href="#" class="btn btn-fix text-center" id="sec" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="sec-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/8.png" >
                         <div class="card-block">
-                            <h4 class=card-title">SEC</h4>
+                            <div class="h4 card-title">SEC</div>
                         </div>
                     </a>
                 </div>
@@ -46,7 +46,7 @@
                     <a href="#" class="btn btn-fix text-center" id="b1g" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="b1g-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/5.png" >
                         <div class="card-block">
-                            <h4 class=card-title">Big-10</h4>
+                            <div class="h4 card-title">Big-10</div>
                         </div>
                     </a>
                 </div>
@@ -58,7 +58,7 @@
                     <a class="btn btn-fix text-center" id="acc" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="acc-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/1.png" >
                         <div class="card-block">
-                            <h4 class=card-title">ACC</h4>
+                            <div class="h4 card-title">ACC</div>
                         </div>
                     </a>
                 </div>
@@ -66,7 +66,7 @@
                     <a href="#" class="btn btn-fix text-center" id="b12" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="b12-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/4.png" >
                         <div class="card-block">
-                            <h4 class=card-title">Big-12</h4>
+                            <div class="h4 card-title">Big-12</div>
                         </div>
                     </a>
                 </div>
@@ -74,7 +74,7 @@
                     <a href="#" class="btn btn-fix text-center" id="aac" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="aac-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/151.png" >
                         <div class="card-block">
-                            <h4 class=card-title">AAC</h4>
+                            <div class="h4 card-title">AAC</div>
                         </div>
                     </a>
                 </div>
@@ -86,7 +86,7 @@
                     <a href="#" class="btn btn-fix text-center" id="mwc" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="mwc-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/17.png" >
                         <div class="card-block">
-                            <h4 class=card-title">Mountain West</h4>
+                            <div class="h4 card-title">Mountain West</div>
                         </div>
                     </a>
                 </div>
@@ -94,7 +94,7 @@
                     <a href="#" class="btn btn-fix text-center" id="mac" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="mac-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/15.png" >
                         <div class="card-block">
-                            <h4 class=card-title">MAC</h4>
+                            <div class="h4 card-title">MAC</div>
                         </div>
                     </a>
                 </div>
@@ -102,7 +102,7 @@
                     <a href="#" class="btn btn-fix text-center" id="cusa" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="cusa-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/12.png" >
                         <div class="card-block">
-                            <h4 class=card-title">C-USA</h4>
+                            <div class="h4 card-title">C-USA</div>
                         </div>
                     </a>
                 </div>
@@ -114,7 +114,7 @@
                     <a class="btn btn-fix text-center" id="sbc" onclick="populateTeams(this.id)">
                         <img class="card-img-top img-responsive"" id="sbc-img" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500/37.png" >
                         <div class="card-block">
-                            <h4 class=card-title">Sun Belt</h4>
+                            <div class="h4 card-title">Sun Belt</div>
                         </div>
                     </a>
                 </div>
@@ -124,7 +124,8 @@
     <div class="container mx-auto rounded" id="teams-container" >
     </div>
     <div class="container align-center rounded" id="single-team-container" >
-        <h2 class="row text-center rounded-top justify-content-center mt-2 mb-2 py-2 font-weight-bold" id="team-name"></h2>
+        <div class="row text-center rounded-top justify-content-center mt-2 mb-2 py-2 font-weight-bold h2" id="team-name">
+        </div>
         <div class="row mx-auto">
             <div class="col-md-8 pl-md-0 " id="stats-view">
                 <table class="table table-bordered table-hover table-sm bg-white" id="stats-table">
@@ -517,7 +518,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="app.js"></script>
 </body>
 </html>
