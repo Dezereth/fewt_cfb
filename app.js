@@ -408,7 +408,7 @@ function fillGamesList(school) {
     gamesCol.appendChild(record);
     gamesCol.appendChild(homeAway);
     //document.getElementById("team-record").textContent = `Record: ${ts.record[0]} - ${ts.record[1]}`;
-    let teamLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[school][0]}.png`;
+    let teamLogo = `https://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[school][0]}.png`;
     for(let i = 0; i < ts.numGames; i++){
         let game = document.createElement("div");
         game.classList.add("row", "border", "bg-white", "py-md-1");
@@ -418,7 +418,7 @@ function fillGamesList(school) {
             oppLogo = fcsLogo;
             fbs = false;
         } else {
-            oppLogo = `http://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[ts.opponent[i]][0]}.png`;
+            oppLogo = `https://a.espncdn.com/i/teamlogos/ncaa/500/${logoLookups[ts.opponent[i]][0]}.png`;
         }
         let team1 = document.createElement("img");
         let team2 = document.createElement("img");
@@ -626,7 +626,7 @@ async function showGameData(gameID) {
     let homeImg = document.createElement("img"); //Our image element
     homeImg.id = "game-away-img";
     homeImg.classList.add("card-img-top", "img-responsive");
-    homeImg.src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`; //Linking to team logo
+    homeImg.src = `https://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`; //Linking to team logo
     if (logoLookups[gameBasic.home_team] !== undefined) {
         //Checking if FBS, so we can link to a season
         homeLink.addEventListener("click", function homeClick() {showTeamData(gameBasic.home_team)} );
@@ -652,7 +652,7 @@ async function showGameData(gameID) {
     let awayImg = document.createElement("img");
     awayImg.id = "game-away-img";
     awayImg.classList.add("card-img-top", "img-responsive");
-    awayImg.src = `http://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
+    awayImg.src = `https://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
     if (logoLookups[gameBasic.away_team] !== undefined) {
         awayLink.addEventListener("click", function awayClick() {showTeamData(gameBasic.away_team)} );
         awayLink.setAttribute("href", "#")
