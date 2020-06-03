@@ -6,6 +6,8 @@ const fcsLogo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa_conf/500
 
 var myChart; //Global declaration so it can be destroyed before writing a new one.
 
+let year = 2019;
+
 //This is nasty, but better than doing a conf lookup and search to get to the team logo link
 //Even better in fact since the API in use does not have correct color values for many teams
 //Manually Sourced color codes from https://teamcolorcodes.com/ncaa-color-codes/
@@ -267,6 +269,8 @@ let teamNameLookup = {}; //For a reverse id to teams index lookup
 function resetPage() {
     games = [];
     teams = [];
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     document.getElementById("teams-container").style.display = "none"; //Unhiding teams page
     document.getElementById("teams-container").textContent = "";
     document.getElementById("single-team-container").style.display = "none"; //Unhiding teams page
@@ -291,6 +295,8 @@ async function getData(localurl) {
 
 async function populateTeams(conferenceToDisplay){
     //teams = [];
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     showSpinner(true);
     teamNameLookup = {};
     //This function will hide (none) the conferences page and display the teams in a conference
@@ -311,7 +317,6 @@ async function populateTeams(conferenceToDisplay){
     for (let i = 0, j = 1; i < teams.length; i++) {
         //Iterating through the fetched teams to display their logos as buttons
         //Creating card elements just like the fixed elements of conferences
-        //console.log(teams[i].school);
         if(i % 3 == 0) {
             //Putting out 3 per row
             row = document.createElement("div");
@@ -329,22 +334,19 @@ async function populateTeams(conferenceToDisplay){
         team.setAttribute("id", `${teams[i].alt_name2}-card`);
         //img = teams[i].logos[0] + imgSize;
         team.innerHTML = `<a href="#" class="btn btn-fix text-center" id="${teams[i].alt_name2}" onclick="showTeamData('${teams[i].school.replace(/'/g, "\\'")}')">
-                            <img class=card-img-top img-responsive" id="${teams[i].alt_name2}-img" src="${teams[i].logos[0]}" >
+                            <img class=card-img-top img-responsive" id="${teams[i].alt_name2}-img" src="https://a.espncdn.com/i/teamlogos/ncaa/500/${teams[i].id}.png" >
                             <div class="card-block">
                                 <div class="h4 card-title">${teams[i].school}</div>
                             </div>
                         </a>`
         deck.appendChild(team);
     }
-    console.log(teams);
-    console.log(teams.length);
     showSpinner(false);
 }
 
 //populateTeams("aac");
 
 async function showTeamData(teamToShow) {
-    console.log(teamToShow)
     games = [];
     document.getElementById("teams-container").style.display = "none"; //Hiding conferences if necessary
     document.getElementById('game-container').style.display = "none"; //Hiding game data if necessary
@@ -353,12 +355,13 @@ async function showTeamData(teamToShow) {
         //This data is already showing, lets not fetch it again
         return;
     }
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     showSpinner(true);
     document.getElementById("games-column").textContent = ''; //TODid propagate this clearing method to other areas instead of innerHTML. stackoverflow.com/questions/3955229 says is faster.
     for (let el of document.querySelectorAll('.season-data')) el.style.visibility = 'hidden'; //Hide stats for when already filled stackoverflow.com/questions/18414384
-    console.log(teamToShow);
     //Takes a team.school string from the team object
-    let year = "2019";
+    //let year = "2019";
     let teamURLname = teamToShow.replace(/ /g, "%20").replace(/&/g, "%26"); //convert spaces to URL spaces, and & to URL ampersand for Tx A&M
 
     let gamesURL = baseURL + "games/teams?year=" + year + "&team=" + teamURLname + "&week=";
@@ -383,8 +386,6 @@ async function showTeamData(teamToShow) {
                 }
         });
     }
-    console.log(games);
-    console.log(ts);
     fillSeasonTable();
     for (let el of document.querySelectorAll('.season-data')) el.style.visibility = ''; //unhide stats
     fillGamesList(teamToShow); 
@@ -576,6 +577,13 @@ function buildChart(dataType) {
     options: {
         legend: {
             display: false,
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
         }
     }
     })
@@ -589,6 +597,8 @@ async function showGameData(gameID) {
         return
     }
     document.getElementById("game-container").setAttribute("data-id", gameID);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     showSpinner(true);
     for (let el of document.querySelectorAll('.game-data')) el.style.visibility = 'hidden'; //Hide stats for when already filled stackoverflow.com/questions/18414384
     //Moved up from below the await, hides older cards faster
@@ -603,11 +613,10 @@ async function showGameData(gameID) {
     gsh.style.color = "white";
     gsa.style.backgroundColor = "white";
     gsa.style.color = "white";
-    let year = "2019";
+    //let year = "2019";
     let gameURL1 = baseURL + 'games/teams?year=' + year + '&gameId=' + gameID;
     let gameURL2 = baseURL + 'games?year=' + year + '&id=' + gameID;
     let game, gameBasic;
-    console.log(gameURL1);
     await getData(gameURL1)
         .then(response => {
             game = response.data[0];
@@ -616,8 +625,6 @@ async function showGameData(gameID) {
         .then(response => {
             gameBasic = response.data[0];
     });
-    console.log(game);
-    console.log(gameBasic)
 
     //Building the Team Header Cards. So that event listners don't keep happening
     let homeLink = document.createElement("a"); //Our main insert

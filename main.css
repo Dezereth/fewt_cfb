@@ -12,11 +12,6 @@ body {
     font-size: 5.5vw;
 }
 
-.game-page-date {
-    /*This sets the font to be varying sizes as the page resizes*/
-    font-size: 2.5vw;
-}
-
 #home-nav {
     /*Color for NCAA D1, ref: https://en.wikipedia.org/wiki/Module:College_color*/
     background-color: #005eb8;
@@ -63,6 +58,11 @@ body {
     background-color: white;
 }
 
+.game-page-date {
+    /*This sets the font to be varying sizes as the page resizes*/
+    font-size: 2.5vw;
+}
+
 /* Media query specififications pulled from bootstrap docs */
 @media (max-width: 575.98px) { 
     .score-row {
@@ -76,6 +76,10 @@ body {
     #game-date {
         font-size: medium;
     }
+
+    .game-homeaway {
+        font-size: medium;
+    }
  }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -83,6 +87,7 @@ body {
     .score-row {
         font-size: 2.5rem;
     }
+
  }
 
 /* Medium devices (tablets, 768px and up) */
