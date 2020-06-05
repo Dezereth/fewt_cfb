@@ -143,7 +143,7 @@
                         </tr>
                     </thead>
                     <tbody id="offensive-data-body">
-                        <tr id="pointsScored" class="clickable-row"  data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                    <tr id="pointsScored" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="pointsScored-title" >
                                 Points Scored
                             </td>
@@ -152,7 +152,7 @@
                             <td id="points-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="yards" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="yards" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="yards-title">
                                 Yards gained
                             </td>
@@ -161,7 +161,7 @@
                             <td id="yards-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="passYards" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="passYards" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="passYards-title">
                                 Passing Yards
                             </td>
@@ -170,7 +170,7 @@
                             <td id="pass-yards-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="rushYards" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="rushYards" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="rushYards-title">
                                 Rushing Yards
                             </td>
@@ -179,7 +179,7 @@
                             <td id="rush-yards-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="passTD" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="passTD" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="passTD-title">
                                 Passing Touchdowns
                             </td>
@@ -188,7 +188,7 @@
                             <td id="pass-td-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="rushTD" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="rushTD" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="rushTD-title">
                                 Rushing Touchdowns
                             </td>
@@ -197,7 +197,7 @@
                             <td id="rush-td-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="sacked" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="sacked" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="sacked-title">
                                 Sacks Allowed
                             </td>
@@ -206,7 +206,7 @@
                             <td id="sacks-allowed-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="turnoversLost" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="turnoversLost" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="turnoversLost-title">
                                 Turnovers Lost
                             </td>
@@ -230,7 +230,7 @@
                         </tr>
                     </thead>
                     <tbody id="defensive-data-body">
-                        <tr id="pointsAllowed" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="pointsAllowed" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="pointsAllowed-title">
                                 Points Allowed
                             </td>
@@ -239,7 +239,7 @@
                             <td id="points-allowed-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="yardsDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="yardsDef" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="yardsDef-title">
                                 Yards Allowed
                             </td>
@@ -248,7 +248,7 @@
                             <td id="yards-allowed-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="passYardsDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="passYardsDef" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="passYardsDef-title">
                                 Passing Yards Allowed
                             </td>
@@ -257,7 +257,7 @@
                             <td id="pass-yards-allowed-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="rushYardsDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="rushYardsDef" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="rushYardsDef-title">
                                 Rushing Yards Allowed
                             </td>
@@ -266,7 +266,7 @@
                             <td id="rush-yards-allowed-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="passTDDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="passTDDef" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="passTDDef-title">
                                 Passing Touchdowns Allowed
                             </td>
@@ -275,7 +275,7 @@
                             <td id="pass-td-allowed-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="rushTDDef" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="rushTDDef" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="rushTDDef-title">
                                 Rushing Touchdowns Allowed
                             </td>
@@ -284,7 +284,7 @@
                             <td id="rush-td-allowed-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="sacks" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="sacks" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="sacks-title">
                                 Sacks
                             </td>
@@ -293,7 +293,7 @@
                             <td id="sacks-data-total" class="season-data">
                             </td>
                         </tr>
-                        <tr id="turnoversGain" class="clickable-row" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)">
+                        <tr id="turnoversGain" class="clickable-row" role="button" tabindex="0" data-toggle="modal" data-target="#modalCanvas" onclick="buildChart(this.id)" onkeydown="teamStatsEnter(this, event)">
                             <td id="turnoversGain-title">
                                 Turnovers Gained
                             </td>
