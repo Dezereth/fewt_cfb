@@ -334,7 +334,7 @@ async function populateTeams(conferenceToDisplay){
         team.setAttribute("id", `${teams[i].alt_name2}-card`);
         //img = teams[i].logos[0] + imgSize;
         team.innerHTML = `<a href="#" class="btn btn-fix text-center" id="${teams[i].alt_name2}" onclick="showTeamData('${teams[i].school.replace(/'/g, "\\'")}')">
-                            <img class=card-img-top img-responsive" id="${teams[i].alt_name2}-img" src="https://a.espncdn.com/i/teamlogos/ncaa/500/${teams[i].id}.png" >
+                            <img alt="${teams[i].school} logo" class=card-img-top img-responsive" id="${teams[i].alt_name2}-img" src="https://a.espncdn.com/i/teamlogos/ncaa/500/${teams[i].id}.png" >
                             <div class="card-block">
                                 <div class="h4 card-title">${teams[i].school}</div>
                             </div>
@@ -432,6 +432,8 @@ function fillGamesList(school) {
         if (ts.location[i]) {
             team1.src = teamLogo;
             team2.src = oppLogo;
+            team1.alt = school;
+            team2.alt = ts.opponent[i];
             if(fbs) {
                 team2.classList.add("clickable-row");
                 team2.addEventListener("click", function() {showTeamData(ts.opponent[i])} );
@@ -439,6 +441,8 @@ function fillGamesList(school) {
         } else {
             team2.src = teamLogo;
             team1.src = oppLogo;
+            team2.alt = school;
+            team1.alt = ts.opponent[i];
             if(fbs) {
                 team1.classList.add("clickable-row");
                 team1.addEventListener("click", function () {showTeamData(ts.opponent[i])} );
@@ -634,6 +638,7 @@ async function showGameData(gameID) {
     homeImg.id = "game-away-img";
     homeImg.classList.add("card-img-top", "img-responsive");
     homeImg.src = `https://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.home_id}.png`; //Linking to team logo
+    homeImg.alt = gameBasic.home_team;
     if (logoLookups[gameBasic.home_team] !== undefined) {
         //Checking if FBS, so we can link to a season
         homeLink.addEventListener("click", function homeClick() {showTeamData(gameBasic.home_team)} );
@@ -660,6 +665,7 @@ async function showGameData(gameID) {
     awayImg.id = "game-away-img";
     awayImg.classList.add("card-img-top", "img-responsive");
     awayImg.src = `https://a.espncdn.com/i/teamlogos/ncaa/500/${gameBasic.away_id}.png`;
+    awayImg.alt = gameBasic.away_team;
     if (logoLookups[gameBasic.away_team] !== undefined) {
         awayLink.addEventListener("click", function awayClick() {showTeamData(gameBasic.away_team)} );
         awayLink.setAttribute("href", "#")
