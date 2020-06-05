@@ -427,6 +427,9 @@ function fillGamesList(school) {
         score.classList.add("score-row", "clickable-row", "col-6", "text-center", "align-self-center", "font-weight-bold",(((ts.pointsScored[i]-ts.pointsAllowed[i]) > 0) ? "text-success" : "text-danger"),);
         score.textContent = `${ts.location[i] ? ts.pointsScored[i] : ts.pointsAllowed[i]}-${ts.location[i] ? ts.pointsAllowed[i] : ts.pointsScored[i]}`;
         score.addEventListener("click", function() {showGameData(ts.gameID[i])})
+        score.addEventListener("keydown", function(e) {if(e.keyCode ===13) {showGameData(ts.gameID[i])}})
+        score.tabIndex = 0;
+        score.setAttribute("role", "button");
         team1.classList.add("col-3", "img-responsive")
         team2.classList.add("col-3", "img-responsive")
         if (ts.location[i]) {
@@ -437,6 +440,9 @@ function fillGamesList(school) {
             if(fbs) {
                 team2.classList.add("clickable-row");
                 team2.addEventListener("click", function() {showTeamData(ts.opponent[i])} );
+                team2.addEventListener("keydown", function(e) {if(e.keyCode === 13) {showTeamData(ts.opponent[i])}});
+                team2.tabIndex = 0;
+                team2.setAttribute("role", "button");
             }
         } else {
             team2.src = teamLogo;
@@ -446,6 +452,9 @@ function fillGamesList(school) {
             if(fbs) {
                 team1.classList.add("clickable-row");
                 team1.addEventListener("click", function () {showTeamData(ts.opponent[i])} );
+                team1.addEventListener("keydown", function(e) {if(e.keyCode === 13) {showTeamData(ts.opponent[i])}});
+                team1.tabIndex = 0;
+                team1.setAttribute("role", "button");
             }
         }
         game.appendChild(team1);
